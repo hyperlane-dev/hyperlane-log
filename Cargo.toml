@@ -1,0 +1,23 @@
+[package]
+name = "hyperlane-log"
+version = "0.0.1"
+edition = "2021"
+authors = ["ltpp-universe <root@ltpp.vip>"] 
+license = "MIT"
+description = """An asynchronous logging library for Rust that operates on a dedicated thread to avoid blocking other threads. Supports multiple log levels (e.g., error, info, debug) and allows custom log handling methods and configurable log file paths."""
+keywords = ["http", "request", "response", "tcp", "redirect"]
+repository = "https://github.com/ltpp-universe/hyperlane-log.git"
+categories = ["network-programming", "web-programming","development-tools"]
+exclude = [
+    "target",
+    "Cargo.lock",
+    "sh",
+    ".github"
+]
+
+[dependencies]
+chrono = "0.4.39"
+http-constant = "1.9.0"
+http-type = "2.0.10"
+lazy_static = "1.5.0"
+lombok-macros = "1.3.0"
