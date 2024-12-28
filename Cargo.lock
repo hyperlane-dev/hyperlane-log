@@ -179,10 +179,9 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-log"
-version = "0.0.2"
+version = "0.1.0"
 dependencies = [
  "chrono",
- "http-constant",
  "http-type",
  "lazy_static",
  "lombok-macros",
