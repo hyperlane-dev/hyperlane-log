@@ -1,5 +1,4 @@
 use super::constant::{DEFAULT_LOG_FILE_START_IDX, POINT};
-use chrono::{DateTime, Local};
 use std::{
     fs::{self, metadata, read_dir, OpenOptions},
     io::Write,
@@ -18,11 +17,6 @@ pub(crate) fn write_to_file(file_path: &str, content: &str) {
             let _ = file.write_all(content.as_bytes());
             Ok(())
         });
-}
-
-pub(crate) fn get_current_date() -> String {
-    let today: DateTime<Local> = Local::now();
-    today.format("%Y_%m_%d").to_string()
 }
 
 pub(crate) fn get_file_size(file_path: &str) -> usize {

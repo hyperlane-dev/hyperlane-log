@@ -5,9 +5,10 @@ use super::{
     },
     r#trait::{LogDataTrait, LogFuncTrait},
     r#type::{Log, LogArcLock},
-    utils::{get_current_date, get_file_size, get_second_element_from_filename, write_to_file},
+    utils::{get_file_size, get_second_element_from_filename, write_to_file},
 };
 use crate::BoxLogFunc;
+use hyperlane_time::*;
 use lazy_static::lazy_static;
 use std::sync::{Arc, RwLock};
 
@@ -54,7 +55,7 @@ impl Log {
         format!(
             "{}{}{}{}{}{}",
             SLASH,
-            get_current_date(),
+            current_date(),
             POINT,
             idx,
             POINT,
