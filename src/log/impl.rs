@@ -46,7 +46,7 @@ impl Log {
         L: LogFuncTrait,
     {
         if let Ok(mut queue) = log_queue.write() {
-            let data_string: String = format!("{:?}", data);
+            let data_string: String = data.into();
             queue.push((data_string, Box::new(func)));
         }
     }
