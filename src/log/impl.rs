@@ -35,7 +35,7 @@ impl Log {
     fn write(list: &mut Vec<(String, BoxLogFunc)>, path: &str) {
         for (log_string, func) in list.iter() {
             let out: String = func(log_string);
-            write_to_file(path, &out);
+            write_to_file(path, &out.as_bytes());
         }
         list.clear();
     }

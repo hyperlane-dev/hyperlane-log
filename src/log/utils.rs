@@ -4,7 +4,7 @@ use std::{
     io::Write,
 };
 
-pub(crate) fn write_to_file(file_path: &str, content: &str) {
+pub fn write_to_file(file_path: &str, content: &[u8]) {
     if let Some(parent_dir) = std::path::Path::new(file_path).parent() {
         let _ = fs::create_dir_all(parent_dir);
     }
@@ -14,12 +14,12 @@ pub(crate) fn write_to_file(file_path: &str, content: &str) {
         .create(true)
         .open(file_path)
         .and_then(|mut file| {
-            let _ = file.write_all(content.as_bytes());
+            let _ = file.write_all(content);
             Ok(())
         });
 }
 
-pub(crate) fn get_file_size(file_path: &str) -> usize {
+pub fn get_file_size(file_path: &str) -> usize {
     metadata(file_path)
         .and_then(|metadata| Ok(metadata.len()))
         .unwrap_or_default() as usize
