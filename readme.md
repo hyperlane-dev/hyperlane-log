@@ -9,7 +9,7 @@
 
 [Api Docs](https://docs.rs/hyperlane-log/latest/hyperlane_log/)
 
-> An asynchronous logging library for Rust that operates on a dedicated thread to avoid blocking other threads. Supports multiple log levels (e.g., error, info, debug) and allows custom log handling methods and configurable log file paths.
+> A Rust asynchronous logging library that runs on a dedicated thread to avoid blocking other threads. It supports multiple log levels (such as error, info, and debug), and allows custom log handling methods and configuration of log file paths. When a single log file reaches the specified size limit, a new log file will be automatically created.
 
 ## Features
 
@@ -20,6 +20,10 @@ To use this crate, you can run cmd:
 ```shell
 cargo add hyperlane-log
 ```
+
+## Log Storage Location Description
+
+> Three directories will be created under the user-specified directory: one for error logs, one for info logs, and one for debug logs. Each of these directories will contain a subdirectory named by the date, and the log files within these subdirectories will be named in the format `timestamp.index.log`.
 
 ## Use
 

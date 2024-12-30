@@ -1,10 +1,10 @@
 [package]
 name = "hyperlane-log"
-version = "0.1.6"
+version = "0.2.0"
 edition = "2021"
 authors = ["ltpp-universe <root@ltpp.vip>"] 
 license = "MIT"
-description = """An asynchronous logging library for Rust that operates on a dedicated thread to avoid blocking other threads. Supports multiple log levels (e.g., error, info, debug) and allows custom log handling methods and configurable log file paths."""
+description = """A Rust asynchronous logging library that runs on a dedicated thread to avoid blocking other threads. It supports multiple log levels (such as error, info, and debug), and allows custom log handling methods and configuration of log file paths. When a single log file reaches the specified size limit, a new log file will be automatically created."""
 keywords = ["http", "request", "response", "tcp", "redirect"]
 repository = "https://github.com/ltpp-universe/hyperlane-log.git"
 categories = ["network-programming", "web-programming","development-tools"]
@@ -16,7 +16,7 @@ exclude = [
 ]
 
 [dependencies]
-http-type = "2.0.12"
+http-type = "2.0.13"
 hyperlane-time = "0.0.1"
 lazy_static = "1.5.0"
 lombok-macros = "1.3.0"

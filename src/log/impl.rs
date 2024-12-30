@@ -63,6 +63,10 @@ impl Log {
         )
     }
 
+    fn get_file_dir_name(&self) -> String {
+        format!("{}{}", SLASH, current_date())
+    }
+
     fn get_log_path(&self, system_dir: &str) -> String {
         let base_path: &&str = self.get_path();
         let mut combined_path: String = base_path.trim_end_matches(SLASH).to_string();
@@ -70,6 +74,7 @@ impl Log {
             combined_path.push_str(SLASH);
         }
         combined_path.push_str(system_dir.trim_start_matches(SLASH).trim_end_matches(SLASH));
+        combined_path.push_str(&self.get_file_dir_name());
         let idx: usize = get_second_element_from_filename(&combined_path);
         let mut combined_path_clone: String = combined_path.clone();
         combined_path.push_str(&self.get_file_name(idx));
