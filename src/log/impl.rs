@@ -21,15 +21,21 @@ lazy_static! {
 impl Default for Log {
     fn default() -> Self {
         Self {
-            path: DEFAULT_LOG_DIR,
+            path: DEFAULT_LOG_DIR.to_owned(),
             file_size: DEFAULT_LOG_FILE_SIZE,
         }
     }
 }
 
 impl Log {
-    pub fn new(path: &'static str, file_size: usize) -> Self {
-        Self { path, file_size }
+    pub fn new<T>(path: T, file_size: usize) -> Self
+    where
+        T: Into<String>,
+    {
+        Self {
+            path: path.into(),
+            file_size,
+        }
     }
 
     fn write(list: &mut Vec<(String, BoxLogFunc)>, path: &str) {
@@ -68,7 +74,7 @@ impl Log {
     }
 
     fn get_log_path(&self, system_dir: &str) -> String {
-        let base_path: &&str = self.get_path();
+        let base_path: &String = self.get_path();
         let mut combined_path: String = base_path.trim_end_matches(SLASH).to_string();
         if !system_dir.starts_with(SLASH) {
             combined_path.push_str(SLASH);
