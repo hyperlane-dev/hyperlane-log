@@ -4,6 +4,7 @@ use std::{
     io::Write,
 };
 
+#[inline]
 pub fn write_to_file(file_path: &str, content: &[u8]) {
     if let Some(parent_dir) = std::path::Path::new(file_path).parent() {
         let _ = fs::create_dir_all(parent_dir);
@@ -19,12 +20,14 @@ pub fn write_to_file(file_path: &str, content: &[u8]) {
         });
 }
 
+#[inline]
 pub fn get_file_size(file_path: &str) -> usize {
     metadata(file_path)
         .and_then(|metadata| Ok(metadata.len()))
         .unwrap_or_default() as usize
 }
 
+#[inline]
 pub(crate) fn get_second_element_from_filename(dir_path: &str) -> usize {
     let mut res_idx: usize = DEFAULT_LOG_FILE_START_IDX;
     if let Ok(entries) = read_dir(dir_path) {

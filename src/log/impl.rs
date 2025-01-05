@@ -19,6 +19,7 @@ lazy_static! {
 }
 
 impl Default for Log {
+    #[inline]
     fn default() -> Self {
         Self {
             path: DEFAULT_LOG_DIR.to_owned(),
@@ -28,6 +29,7 @@ impl Default for Log {
 }
 
 impl Log {
+    #[inline]
     pub fn new<T>(path: T, file_size: usize) -> Self
     where
         T: Into<String>,
@@ -38,6 +40,7 @@ impl Log {
         }
     }
 
+    #[inline]
     fn write(list: &mut Vec<(String, BoxLogFunc)>, path: &str) {
         for (log_string, func) in list.iter() {
             let out: String = func(log_string);
@@ -46,6 +49,7 @@ impl Log {
         list.clear();
     }
 
+    #[inline]
     fn add_data<T, L>(log_queue: &LogArcLock, data: T, func: L)
     where
         T: LogDataTrait,
@@ -57,6 +61,7 @@ impl Log {
         }
     }
 
+    #[inline]
     fn get_file_name(&self, idx: usize) -> String {
         format!(
             "{}{}{}{}{}{}",
@@ -69,10 +74,12 @@ impl Log {
         )
     }
 
+    #[inline]
     fn get_file_dir_name(&self) -> String {
         format!("{}{}", SLASH, current_date())
     }
 
+    #[inline]
     fn get_log_path(&self, system_dir: &str) -> String {
         let base_path: &String = self.get_path();
         let mut combined_path: String = base_path.trim_end_matches(SLASH).to_string();
@@ -92,24 +99,28 @@ impl Log {
         combined_path_clone
     }
 
+    #[inline]
     pub(super) fn write_error(&self) {
         if let Ok(mut error) = LOG_ERROR_QUEUE.write() {
             Self::write(&mut *error, &self.get_log_path(ERROR_DIR));
         }
     }
 
+    #[inline]
     pub(super) fn write_info(&self) {
         if let Ok(mut info) = LOG_INFO_QUEUE.write() {
             Self::write(&mut *info, &self.get_log_path(INFO_DIR));
         }
     }
 
+    #[inline]
     pub(super) fn write_debug(&self) {
         if let Ok(mut debug) = LOG_DEBUG_QUEUE.write() {
             Self::write(&mut *debug, &self.get_log_path(DEBUG_DIR));
         }
     }
 
+    #[inline]
     pub fn log_error<T, L>(&self, data: T, func: L)
     where
         T: LogDataTrait,
@@ -118,6 +129,7 @@ impl Log {
         Self::add_data(&LOG_ERROR_QUEUE, data, func);
     }
 
+    #[inline]
     pub fn log_info<T, L>(&self, data: T, func: L)
     where
         T: LogDataTrait,
@@ -126,6 +138,7 @@ impl Log {
         Self::add_data(&LOG_INFO_QUEUE, data, func);
     }
 
+    #[inline]
     pub fn log_debug<T, L>(&self, data: T, func: L)
     where
         T: LogDataTrait,
