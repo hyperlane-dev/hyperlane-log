@@ -6,6 +6,7 @@ use std::{
     str::FromStr,
 };
 
+#[inline]
 pub fn read_from_file<T>(file_path: &str) -> Result<T, Box<dyn std::error::Error>>
 where
     T: FromStr,
@@ -20,19 +21,16 @@ where
 }
 
 #[inline]
-pub fn write_to_file(file_path: &str, content: &[u8]) {
+pub fn write_to_file(file_path: &str, content: &[u8]) -> Result<(), std::io::Error> {
     if let Some(parent_dir) = std::path::Path::new(file_path).parent() {
         let _ = fs::create_dir_all(parent_dir);
     }
-    let _ = OpenOptions::new()
+    OpenOptions::new()
         .write(true)
         .append(true)
         .create(true)
         .open(file_path)
-        .and_then(|mut file| {
-            let _ = file.write_all(content);
-            Ok(())
-        });
+        .and_then(|mut file| file.write_all(content))
 }
 
 #[inline]
