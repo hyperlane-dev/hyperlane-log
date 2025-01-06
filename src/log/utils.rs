@@ -1,8 +1,23 @@
 use super::constant::{DEFAULT_LOG_FILE_START_IDX, POINT};
 use std::{
-    fs::{self, metadata, read_dir, OpenOptions},
-    io::Write,
+    fs::{self, metadata, read_dir, File, OpenOptions},
+    io::{Read, Write},
+    path::Path,
+    str::FromStr,
 };
+
+pub fn read_from_file<T>(file_path: &str) -> Result<T, Box<dyn std::error::Error>>
+where
+    T: FromStr,
+    T::Err: std::error::Error + 'static,
+{
+    let path: &Path = Path::new(file_path);
+    let mut file: File = File::open(path)?;
+    let mut content = String::new();
+    file.read_to_string(&mut content)?;
+    let parsed_content: T = content.parse::<T>()?;
+    Ok(parsed_content)
+}
 
 #[inline]
 pub fn write_to_file(file_path: &str, content: &[u8]) {

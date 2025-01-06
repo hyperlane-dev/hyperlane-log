@@ -64,3 +64,13 @@ fn test_more_log_second() {
     });
     thread::sleep(Duration::new(6, 0));
 }
+
+#[test]
+fn read_log() {
+    use crate::*;
+    use std::error::Error;
+    let data: Result<String, Box<dyn Error>> = read_from_file::<String>("./.gitignore");
+    println!("{:?}", data);
+    let data: Result<String, Box<dyn Error>> = read_from_file::<String>("./.error");
+    println!("{:?}", data);
+}
