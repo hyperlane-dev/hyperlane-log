@@ -69,8 +69,8 @@ fn test_more_log_second() {
 fn read_log() {
     use crate::*;
     use std::error::Error;
-    let data: Result<String, Box<dyn Error>> = read_from_file::<String>("./.gitignore");
+    let data: Result<DataString, Box<dyn Error>> = read_from_file("./.gitignore");
     println!("{:?}", data);
-    let data: Result<String, Box<dyn Error>> = read_from_file::<String>("./.error");
+    let data: Result<Vec<u8>, Box<dyn Error>> = read_from_file("./.error");
     println!("{:?}", data);
 }

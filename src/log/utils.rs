@@ -1,23 +1,36 @@
 use super::constant::{DEFAULT_LOG_FILE_START_IDX, POINT};
 use std::{
+    fmt,
     fs::{self, metadata, read_dir, File, OpenOptions},
     io::{Read, Write},
     path::Path,
-    str::FromStr,
 };
+
+#[derive(Debug, Clone)]
+pub struct DataString(String);
+
+impl From<Vec<u8>> for DataString {
+    fn from(bytes: Vec<u8>) -> Self {
+        DataString(String::from_utf8(bytes).unwrap_or_else(|_| String::new()))
+    }
+}
+
+impl fmt::Display for DataString {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
 
 #[inline]
 pub fn read_from_file<T>(file_path: &str) -> Result<T, Box<dyn std::error::Error>>
 where
-    T: FromStr,
-    T::Err: std::error::Error + 'static,
+    T: From<Vec<u8>>,
 {
     let path: &Path = Path::new(file_path);
     let mut file: File = File::open(path)?;
-    let mut content = String::new();
-    file.read_to_string(&mut content)?;
-    let parsed_content: T = content.parse::<T>()?;
-    Ok(parsed_content)
+    let mut content: Vec<u8> = Vec::new();
+    file.read_to_end(&mut content)?;
+    Ok(T::from(content))
 }
 
 #[inline]
