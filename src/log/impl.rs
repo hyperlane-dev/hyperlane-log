@@ -4,7 +4,7 @@ use super::{
         SLASH,
     },
     r#trait::{LogDataTrait, LogFuncTrait},
-    r#type::{Log, LogArcLock},
+    r#type::{Log, LogListArcLock},
     utils::{get_file_size, get_second_element_from_filename, write_to_file},
 };
 use crate::BoxLogFunc;
@@ -13,9 +13,9 @@ use lazy_static::lazy_static;
 use std::sync::{Arc, RwLock};
 
 lazy_static! {
-    static ref LOG_ERROR_QUEUE: LogArcLock = Arc::new(RwLock::new(Vec::new()));
-    static ref LOG_INFO_QUEUE: LogArcLock = Arc::new(RwLock::new(Vec::new()));
-    static ref LOG_DEBUG_QUEUE: LogArcLock = Arc::new(RwLock::new(Vec::new()));
+    static ref LOG_ERROR_QUEUE: LogListArcLock = Arc::new(RwLock::new(Vec::new()));
+    static ref LOG_INFO_QUEUE: LogListArcLock = Arc::new(RwLock::new(Vec::new()));
+    static ref LOG_DEBUG_QUEUE: LogListArcLock = Arc::new(RwLock::new(Vec::new()));
 }
 
 impl Default for Log {
@@ -46,18 +46,19 @@ impl Log {
             let out: String = func(log_string);
             let _ = write_to_file(path, &out.as_bytes());
         }
-        list.clear();
     }
 
     #[inline]
-    fn add_data<T, L>(log_queue: &LogArcLock, data: T, func: L)
+    fn add_data<T, L>(log_queue: &LogListArcLock, data: T, func: L)
     where
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        if let Ok(mut queue) = log_queue.write() {
-            let data_string: String = data.into();
-            queue.push((data_string, Box::new(func)));
+        let data_string: String = data.into();
+        {
+            if let Ok(mut queue) = log_queue.write() {
+                queue.push((data_string, Box::new(func)));
+            }
         }
     }
 
@@ -103,6 +104,7 @@ impl Log {
     pub(super) fn write_error(&self) {
         if let Ok(mut error) = LOG_ERROR_QUEUE.write() {
             Self::write(&mut *error, &self.get_log_path(ERROR_DIR));
+            error.clear();
         }
     }
 
@@ -110,6 +112,7 @@ impl Log {
     pub(super) fn write_info(&self) {
         if let Ok(mut info) = LOG_INFO_QUEUE.write() {
             Self::write(&mut *info, &self.get_log_path(INFO_DIR));
+            info.clear();
         }
     }
 
@@ -117,6 +120,7 @@ impl Log {
     pub(super) fn write_debug(&self) {
         if let Ok(mut debug) = LOG_DEBUG_QUEUE.write() {
             Self::write(&mut *debug, &self.get_log_path(DEBUG_DIR));
+            debug.clear();
         }
     }
 
