@@ -15,9 +15,9 @@ dependencies = [
 
 [[package]]
 name = "file-operation"
-version = "0.0.2"
+version = "0.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e7f04e69520e4fb15f9804aa78167ebe8f68acb6286be481b46ff503370a42a7"
+checksum = "868c355396ddbf2060bdaffa23d556fd67e31fcbd67e065e77b7d47e72a7982d"
 
 [[package]]
 name = "form_urlencoded"
@@ -36,15 +36,15 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "http-constant"
-version = "1.25.0"
+version = "1.25.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "eb37523f40fe53d5ae3171dc23673f86e51b8aa0384f25ee50aad427b52eb637"
+checksum = "b7e2991db9cba1223b35dcf186f4a5bf9ff5fdb44abfe346d424fe9107cd4c90"
 
 [[package]]
 name = "http-type"
-version = "2.27.0"
+version = "2.27.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2562e79880a281b908e89a62c933f1ef21d11622c22ef0193014a801697a56d5"
+checksum = "57c2ed8ff3224a582c00eee2d947a80f23e2694acd609c3af972c597fdc94a5a"
 dependencies = [
  "hex",
  "http-constant",
@@ -58,7 +58,7 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-log"
-version = "0.27.0"
+version = "0.28.0"
 dependencies = [
  "file-operation",
  "http-type",
@@ -70,9 +70,9 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-time"
-version = "0.0.2"
+version = "0.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "39409c94ad720e02a3ae17098e22fbd5e8adeb5ef4e6bc3f563de0f1b32d000c"
+checksum = "49b1b985e97fd18e5a1ff955e831f5f77366f5d5b13a55a6e305193eb8ecbecd"
 
 [[package]]
 name = "icu_collections"
@@ -280,9 +280,9 @@ dependencies = [
 
 [[package]]
 name = "recoverable-spawn"
-version = "0.0.3"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dfcefa9a8382fbd8fad8ddde71131306bdab35b48bd0feb0f14d5547ee847d07"
+checksum = "50aff2a0f20eb2080c6067db37d40d8c978efc2875db4dec9353a1dbcb42a02d"
 
 [[package]]
 name = "ryu"
