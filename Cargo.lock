@@ -14,6 +14,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "file-operation"
+version = "0.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e7f04e69520e4fb15f9804aa78167ebe8f68acb6286be481b46ff503370a42a7"
+
+[[package]]
 name = "form_urlencoded"
 version = "1.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -52,12 +58,14 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-log"
-version = "0.24.0"
+version = "0.27.0"
 dependencies = [
+ "file-operation",
  "http-type",
  "hyperlane-time",
  "lazy_static",
  "lombok-macros",
+ "recoverable-spawn",
 ]
 
 [[package]]
@@ -269,6 +277,12 @@ checksum = "0e4dccaaaf89514f546c693ddc140f729f958c247918a13380cccc6078391acc"
 dependencies = [
  "proc-macro2",
 ]
+
+[[package]]
+name = "recoverable-spawn"
+version = "0.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "dfcefa9a8382fbd8fad8ddde71131306bdab35b48bd0feb0f14d5547ee847d07"
 
 [[package]]
 name = "ryu"

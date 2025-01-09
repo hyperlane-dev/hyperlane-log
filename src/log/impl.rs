@@ -5,6 +5,7 @@ use super::{
     utils::*,
 };
 use crate::BoxLogFunc;
+use file_operation::*;
 use http_type::*;
 use hyperlane_time::*;
 use lazy_static::lazy_static;
@@ -94,7 +95,7 @@ impl Log {
         let idx: usize = get_second_element_from_filename(&combined_path);
         let mut combined_path_clone: String = combined_path.clone();
         combined_path.push_str(&self.get_file_name(idx));
-        let file_size: usize = get_file_size(&combined_path);
+        let file_size: usize = get_file_size(&combined_path).unwrap_or_default() as usize;
         if file_size <= self.file_size {
             return combined_path;
         }

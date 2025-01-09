@@ -71,13 +71,3 @@ fn test_more_log_second() {
     }
     thread::sleep(Duration::new(4, 0));
 }
-
-#[test]
-fn read_log() {
-    use crate::*;
-    use std::error::Error;
-    let data: Result<DataString, Box<dyn Error>> = read_from_file("./.gitignore");
-    println!("{:?}", data);
-    let data: Result<Vec<u8>, Box<dyn Error>> = read_from_file("./.error");
-    println!("{:?}", data);
-}
