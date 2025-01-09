@@ -11,8 +11,6 @@
 
 > A Rust asynchronous logging library that runs on a dedicated thread to avoid blocking other threads. It supports multiple log levels (such as error, info, and debug), and allows custom log handling methods and configuration of log file paths. When a single log file reaches the specified size limit, a new log file will be automatically created.
 
-## Features
-
 ## Installation
 
 To use this crate, you can run cmd:
