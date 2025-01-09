@@ -30,15 +30,15 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "http-constant"
-version = "1.24.0"
+version = "1.25.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e7132ababfb859049e8b4eea9eed81eeb810261b3bf0b59e3ee1b851e4953573"
+checksum = "eb37523f40fe53d5ae3171dc23673f86e51b8aa0384f25ee50aad427b52eb637"
 
 [[package]]
 name = "http-type"
-version = "2.26.0"
+version = "2.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "57015bd1e7e8665ac303dd21a57c33a715f0cfea090977c7b8ec328879dc07d8"
+checksum = "2562e79880a281b908e89a62c933f1ef21d11622c22ef0193014a801697a56d5"
 dependencies = [
  "hex",
  "http-constant",
@@ -52,7 +52,7 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-log"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "http-type",
  "hyperlane-time",

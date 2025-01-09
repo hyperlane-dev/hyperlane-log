@@ -1,13 +1,11 @@
 use super::{
-    constant::{
-        DEBUG_DIR, DEFAULT_LOG_DIR, DEFAULT_LOG_FILE_SIZE, ERROR_DIR, INFO_DIR, LOG_EXTION, POINT,
-        SLASH,
-    },
+    constant::*,
     r#trait::{LogDataTrait, LogFuncTrait},
     r#type::{Log, LogListArcLock},
-    utils::{get_file_size, get_second_element_from_filename, write_to_file},
+    utils::*,
 };
 use crate::BoxLogFunc;
+use http_type::*;
 use hyperlane_time::*;
 use lazy_static::lazy_static;
 use std::sync::{Arc, RwLock};
@@ -66,7 +64,7 @@ impl Log {
     fn get_file_name(&self, idx: usize) -> String {
         format!(
             "{}{}{}{}{}{}",
-            SLASH,
+            ROOT_PATH,
             current_date(),
             POINT,
             idx,
@@ -77,17 +75,21 @@ impl Log {
 
     #[inline]
     fn get_file_dir_name(&self) -> String {
-        format!("{}{}", SLASH, current_date())
+        format!("{}{}", ROOT_PATH, current_date())
     }
 
     #[inline]
     fn get_log_path(&self, system_dir: &str) -> String {
         let base_path: &String = self.get_path();
-        let mut combined_path: String = base_path.trim_end_matches(SLASH).to_string();
-        if !system_dir.starts_with(SLASH) {
-            combined_path.push_str(SLASH);
+        let mut combined_path: String = base_path.trim_end_matches(ROOT_PATH).to_string();
+        if !system_dir.starts_with(ROOT_PATH) {
+            combined_path.push_str(ROOT_PATH);
         }
-        combined_path.push_str(system_dir.trim_start_matches(SLASH).trim_end_matches(SLASH));
+        combined_path.push_str(
+            system_dir
+                .trim_start_matches(ROOT_PATH)
+                .trim_end_matches(ROOT_PATH),
+        );
         combined_path.push_str(&self.get_file_dir_name());
         let idx: usize = get_second_element_from_filename(&combined_path);
         let mut combined_path_clone: String = combined_path.clone();

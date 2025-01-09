@@ -1,4 +1,5 @@
-use super::constant::{DEFAULT_LOG_FILE_START_IDX, POINT};
+use super::constant::*;
+use http_type::*;
 use std::{
     fmt,
     fs::{self, metadata, read_dir, File, OpenOptions},
@@ -10,12 +11,14 @@ use std::{
 pub struct DataString(String);
 
 impl From<Vec<u8>> for DataString {
+    #[inline]
     fn from(bytes: Vec<u8>) -> Self {
         DataString(String::from_utf8(bytes).unwrap_or_else(|_| String::new()))
     }
 }
 
 impl fmt::Display for DataString {
+    #[inline]
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.0)
     }
