@@ -58,7 +58,7 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-log"
-version = "0.28.1"
+version = "0.29.0"
 dependencies = [
  "file-operation",
  "http-type",
@@ -280,9 +280,9 @@ dependencies = [
 
 [[package]]
 name = "recoverable-spawn"
-version = "0.1.0"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50aff2a0f20eb2080c6067db37d40d8c978efc2875db4dec9353a1dbcb42a02d"
+checksum = "2eab61c6cdded37bcd943373240bb288ea87917af577242bb00bcdae7791fb18"
 
 [[package]]
 name = "ryu"
