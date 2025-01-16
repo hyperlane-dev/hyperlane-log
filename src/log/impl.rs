@@ -8,14 +8,12 @@ use crate::BoxLogFunc;
 use file_operation::*;
 use http_type::*;
 use hyperlane_time::*;
-use lazy_static::lazy_static;
+use once_cell::sync::Lazy;
 use std::sync::{Arc, RwLock};
 
-lazy_static! {
-    static ref LOG_ERROR_QUEUE: LogListArcLock = Arc::new(RwLock::new(Vec::new()));
-    static ref LOG_INFO_QUEUE: LogListArcLock = Arc::new(RwLock::new(Vec::new()));
-    static ref LOG_DEBUG_QUEUE: LogListArcLock = Arc::new(RwLock::new(Vec::new()));
-}
+static LOG_ERROR_QUEUE: Lazy<LogListArcLock> = Lazy::new(|| Arc::new(RwLock::new(Vec::new())));
+static LOG_INFO_QUEUE: Lazy<LogListArcLock> = Lazy::new(|| Arc::new(RwLock::new(Vec::new())));
+static LOG_DEBUG_QUEUE: Lazy<LogListArcLock> = Lazy::new(|| Arc::new(RwLock::new(Vec::new())));
 
 impl Default for Log {
     #[inline]
@@ -128,7 +126,7 @@ impl Log {
     }
 
     #[inline]
-    pub fn log_error<T, L>(&self, data: T, func: L)
+    pub fn error<T, L>(&self, data: T, func: L)
     where
         T: LogDataTrait,
         L: LogFuncTrait,
@@ -137,7 +135,7 @@ impl Log {
     }
 
     #[inline]
-    pub fn log_info<T, L>(&self, data: T, func: L)
+    pub fn info<T, L>(&self, data: T, func: L)
     where
         T: LogDataTrait,
         L: LogFuncTrait,
@@ -146,7 +144,7 @@ impl Log {
     }
 
     #[inline]
-    pub fn log_debug<T, L>(&self, data: T, func: L)
+    pub fn debug<T, L>(&self, data: T, func: L)
     where
         T: LogDataTrait,
         L: LogFuncTrait,

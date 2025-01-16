@@ -29,15 +29,15 @@ cargo add hyperlane-log
 use hyperlane_log::*;
 let log: Log = Log::new("./logs", 1_024_000);
 let log_thread: JoinHandle<()> = log_run(&log);
-log.log_error("error data!", |error| {
+log.error("error data!", |error| {
     let write_data: String = format!("User error func =>  {:?}\n", error);
     write_data
 });
-log.log_info("info data!", |info| {
+log.info("info data!", |info| {
     let write_data: String = format!("User info func =>  {:?}\n", info);
     write_data
 });
-log.log_debug("debug data!", |debug| {
+log.debug("debug data!", |debug| {
     let write_data: String = format!("User debug func =>  {:#?}\n", debug);
     write_data
 });
