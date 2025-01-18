@@ -105,9 +105,9 @@ checksum = "b7e2991db9cba1223b35dcf186f4a5bf9ff5fdb44abfe346d424fe9107cd4c90"
 
 [[package]]
 name = "http-type"
-version = "2.28.0"
+version = "2.29.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "174769d779d66bad779f51206292b7e3e4c10f412731b7a2645bb3bbf23cc882"
+checksum = "f62d46f0d2f1e5f6ee6edd869f5fc934557e9b1a42957a574cc98a90c8d12d20"
 dependencies = [
  "hex",
  "http-constant",
@@ -116,12 +116,13 @@ dependencies = [
  "serde-xml-rs",
  "serde_json",
  "serde_urlencoded",
+ "tokio",
  "url",
 ]
 
 [[package]]
 name = "hyperlane-log"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "file-operation",
  "http-type",
