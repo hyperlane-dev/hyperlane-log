@@ -4,12 +4,15 @@ use super::{
     r#type::{Log, LogListArcLock},
     utils::*,
 };
-use crate::BoxLogFunc;
+use crate::{ArcLogFunc, ListLog};
 use file_operation::*;
 use http_type::*;
 use hyperlane_time::*;
 use once_cell::sync::Lazy;
-use std::sync::{Arc, RwLock};
+use std::{
+    sync::{Arc, RwLock},
+    vec,
+};
 
 static LOG_ERROR_QUEUE: Lazy<LogListArcLock> = Lazy::new(|| Arc::new(RwLock::new(Vec::new())));
 static LOG_INFO_QUEUE: Lazy<LogListArcLock> = Lazy::new(|| Arc::new(RwLock::new(Vec::new())));
@@ -21,24 +24,26 @@ impl Default for Log {
         Self {
             path: DEFAULT_LOG_DIR.to_owned(),
             file_size: DEFAULT_LOG_FILE_SIZE,
+            interval_millis: DEFAULT_LOG_INTERVAL_MILLIS,
         }
     }
 }
 
 impl Log {
     #[inline]
-    pub fn new<T>(path: T, file_size: usize) -> Self
+    pub fn new<T>(path: T, file_size: usize, interval_millis: usize) -> Self
     where
         T: Into<String>,
     {
         Self {
             path: path.into(),
             file_size,
+            interval_millis,
         }
     }
 
     #[inline]
-    fn write(list: &mut Vec<(String, BoxLogFunc)>, path: &str) {
+    fn write(list: &mut Vec<(String, ArcLogFunc)>, path: &str) {
         for (log_string, func) in list.iter() {
             let out: String = func(log_string);
             let _ = write_to_file(path, &out.as_bytes());
@@ -54,7 +59,7 @@ impl Log {
         let data_string: String = data.into();
         {
             if let Ok(mut queue) = log_queue.write() {
-                queue.push((data_string, Box::new(func)));
+                queue.push((data_string, Arc::new(func)));
             }
         }
     }
@@ -103,26 +108,35 @@ impl Log {
 
     #[inline]
     pub(super) fn write_error(&self) {
-        if let Ok(mut error) = LOG_ERROR_QUEUE.write() {
-            Self::write(&mut *error, &self.get_log_path(ERROR_DIR));
-            error.clear();
-        }
+        let mut list: ListLog = if let Ok(mut error) = LOG_ERROR_QUEUE.write() {
+            let tmp_error: ListLog = error.drain(..).collect::<Vec<_>>();
+            tmp_error
+        } else {
+            vec![]
+        };
+        Self::write(&mut list, &self.get_log_path(ERROR_DIR));
     }
 
     #[inline]
     pub(super) fn write_info(&self) {
-        if let Ok(mut info) = LOG_INFO_QUEUE.write() {
-            Self::write(&mut *info, &self.get_log_path(INFO_DIR));
-            info.clear();
-        }
+        let mut list: ListLog = if let Ok(mut info) = LOG_INFO_QUEUE.write() {
+            let tmp_info: ListLog = info.drain(..).collect::<Vec<_>>();
+            tmp_info
+        } else {
+            vec![]
+        };
+        Self::write(&mut list, &self.get_log_path(INFO_DIR));
     }
 
     #[inline]
     pub(super) fn write_debug(&self) {
-        if let Ok(mut debug) = LOG_DEBUG_QUEUE.write() {
-            Self::write(&mut *debug, &self.get_log_path(DEBUG_DIR));
-            debug.clear();
-        }
+        let mut list: ListLog = if let Ok(mut debug) = LOG_DEBUG_QUEUE.write() {
+            let tmp_debug: ListLog = debug.drain(..).collect::<Vec<_>>();
+            tmp_debug
+        } else {
+            vec![]
+        };
+        Self::write(&mut list, &self.get_log_path(DEBUG_DIR));
     }
 
     #[inline]

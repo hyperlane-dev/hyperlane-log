@@ -27,7 +27,7 @@ cargo add hyperlane-log
 
 ```rust
 use hyperlane_log::*;
-let log: Log = Log::new("./logs", 1_024_000);
+let log: Log = Log::new("./logs", 1_024_000, 360);
 let log_thread: JoinHandle<()> = log_run(&log);
 log.error("error data!", |error| {
     let write_data: String = format!("User error func =>  {:?}\n", error);
