@@ -154,9 +154,9 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "http-compress"
-version = "2.1.2"
+version = "2.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e6242d5c59573ded331fd99c8a4ce6e04542b7ea065a2fb2ad4b267adc7fed5f"
+checksum = "7aaa42676e8b1a62d5e305d5510da4808711d708765ab376b275f785114e2ffa"
 dependencies = [
  "brotli",
  "flate2",
@@ -171,9 +171,9 @@ checksum = "0e6d6d1dab5c7e7dfd78192e6ac4e1fada87d5e906865469d634083b528b7e00"
 
 [[package]]
 name = "http-type"
-version = "2.30.7"
+version = "2.30.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "14064b6c8551422f02f0a2ae234d6046765e1c271f767d234124910497cd4f2d"
+checksum = "bb0817e4908a24db7f3535fa0ae1a90a3a1a44840f4e3638d5e0914bcfa35d69"
 dependencies = [
  "hex",
  "http-compress",
@@ -189,7 +189,7 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-log"
-version = "1.1.7"
+version = "1.1.8"
 dependencies = [
  "file-operation",
  "http-type",
@@ -485,9 +485,9 @@ dependencies = [
 
 [[package]]
 name = "recoverable-spawn"
-version = "3.3.2"
+version = "3.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "26df3fd32464bbacdb2b8a4c69973cd7a0d793cbaa8ae9af68a67a06318a3a32"
+checksum = "ff6bb813c8eedf7eb8b75a7da4dfaf57bcfcea5be43bca58cc1fa7cd1ad90336"
 dependencies = [
  "once_cell",
  "tokio",
