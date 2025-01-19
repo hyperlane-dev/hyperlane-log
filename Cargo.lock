@@ -122,7 +122,7 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-log"
-version = "1.1.1"
+version = "1.1.2"
 dependencies = [
  "file-operation",
  "http-type",
