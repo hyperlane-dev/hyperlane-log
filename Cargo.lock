@@ -189,7 +189,7 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-log"
-version = "1.1.12"
+version = "1.1.13"
 dependencies = [
  "file-operation",
  "http-type",
@@ -485,9 +485,9 @@ dependencies = [
 
 [[package]]
 name = "recoverable-spawn"
-version = "3.3.4"
+version = "3.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c360793fe65dba55ddcec06e6af90729ae5d97feecccb1296c5e0614eca0f492"
+checksum = "6c02d7005acb0380d9c4abcd41bfc8b8567c16cc408d0d49e8a3c34a561f7793"
 dependencies = [
  "once_cell",
  "tokio",
