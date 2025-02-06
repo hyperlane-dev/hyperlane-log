@@ -114,9 +114,9 @@ dependencies = [
 
 [[package]]
 name = "file-operation"
-version = "0.3.3"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b3a966c70d5ced6125debd10b519718aaf05b6f38ee49cf5b08e64fcfaebed8"
+checksum = "070e4394460c13c82d3bb0ba8bd4352a140f04318f2d44f2fd9a7d878cb7e824"
 dependencies = [
  "tokio",
 ]
@@ -189,7 +189,7 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-log"
-version = "1.1.16"
+version = "1.1.17"
 dependencies = [
  "file-operation",
  "http-type",
