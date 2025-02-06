@@ -46,7 +46,7 @@ impl Log {
     fn write(list: &mut Vec<(String, ArcLogFunc)>, path: &str) {
         for (log_string, func) in list.iter() {
             let out: String = func(log_string);
-            let _ = write_to_file(path, &out.as_bytes());
+            let _ = append_to_file(path, &out.as_bytes());
         }
     }
 
