@@ -154,9 +154,9 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "http-compress"
-version = "2.2.1"
+version = "2.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "842a74befdbf887041a1dad9c819ff3222a2aed203c420e5d50e618357b34b6a"
+checksum = "32559685cb661bd2c3f592f31cf3e7de0e9cb4f0a0276962d99444f7f6748b42"
 dependencies = [
  "brotli",
  "flate2",
@@ -165,15 +165,15 @@ dependencies = [
 
 [[package]]
 name = "http-constant"
-version = "1.26.1"
+version = "1.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7c55fae5d1478014c77ea58dd6248f13dfc17222a969c5f335be2f244d7c3497"
+checksum = "10848ec913e96f2ce1450f85469d0bdc352129be261eec684c2a1ae97db1ae18"
 
 [[package]]
 name = "http-type"
-version = "2.31.1"
+version = "2.32.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5894a0d552760fbaea07f9a883fc5a77e5a2e5bdd3b346dbc1bf4cfb823f9fee"
+checksum = "a9deeceb1bc7e2354000f0702295013ee9a6a3c0d62acacf600227ce4c6a04c1"
 dependencies = [
  "hex",
  "http-compress",
@@ -189,7 +189,7 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-log"
-version = "1.1.18"
+version = "1.1.19"
 dependencies = [
  "file-operation",
  "http-type",
@@ -426,9 +426,9 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.20.2"
+version = "1.20.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1261fe7e33c73b354eab43b1273a57c8f967d0391e80353e51f764ac02cf6775"
+checksum = "945462a4b81e43c4e3ba96bd7b49d834c6f61198356aa858733bc4acf3cbe62e"
 
 [[package]]
 name = "parking_lot"
@@ -554,9 +554,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.137"
+version = "1.0.138"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "930cfb6e6abf99298aaad7d29abbef7a9999a9a8806a40088f55f0dcec03146b"
+checksum = "d434192e7da787e94a6ea7e9670b26a036d0ca41e0b7efb2676dd32bae872949"
 dependencies = [
  "itoa",
  "memchr",
