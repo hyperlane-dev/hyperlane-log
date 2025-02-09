@@ -1,9 +1,13 @@
+<center>
+
 ## hyperlane-log
 
 [![](https://img.shields.io/crates/v/hyperlane-log.svg)](https://crates.io/crates/hyperlane-log)
 [![](https://docs.rs/hyperlane-log/badge.svg)](https://docs.rs/hyperlane-log)
-[![](https://img.shields.io/crates/l/hyperlane-log.svg)](./LICENSE)
 [![](https://github.com/ltpp-universe/hyperlane-log/workflows/Rust/badge.svg)](https://github.com/ltpp-universe/hyperlane-log/actions?query=workflow:Rust)
+[![](https://img.shields.io/crates/l/hyperlane-log.svg)](./LICENSE)
+
+</center>
 
 [Official Documentation](https://docs.ltpp.vip/hyperlane-log/)
 

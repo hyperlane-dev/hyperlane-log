@@ -114,9 +114,9 @@ dependencies = [
 
 [[package]]
 name = "file-operation"
-version = "0.4.0"
+version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "070e4394460c13c82d3bb0ba8bd4352a140f04318f2d44f2fd9a7d878cb7e824"
+checksum = "a9c0bae1faa895e58f4138036844fe4d7d6c22692c9ed140e39d97edc49df418"
 dependencies = [
  "tokio",
 ]
@@ -154,9 +154,9 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "http-compress"
-version = "2.2.2"
+version = "2.2.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "32559685cb661bd2c3f592f31cf3e7de0e9cb4f0a0276962d99444f7f6748b42"
+checksum = "f06c6ee63a39ec767d40fceb501078192737f8d96452af9453447510bde31229"
 dependencies = [
  "brotli",
  "flate2",
@@ -165,15 +165,15 @@ dependencies = [
 
 [[package]]
 name = "http-constant"
-version = "1.27.0"
+version = "1.27.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "10848ec913e96f2ce1450f85469d0bdc352129be261eec684c2a1ae97db1ae18"
+checksum = "d4f65c1d734142034b3e28ee07df50974f6adc2fb2eeb877963181e826d2aa6a"
 
 [[package]]
 name = "http-type"
-version = "2.33.0"
+version = "2.33.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9a5ab0797b0b686eba3413bf14c4d1a6f28a27278f02e11cacf6cec62c54a36d"
+checksum = "043765ac0f819f400f152fef3535f6dc63fcf083d10485e1e0388a61cb2a0ac4"
 dependencies = [
  "hex",
  "http-compress",
@@ -189,7 +189,7 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-log"
-version = "1.1.20"
+version = "1.1.21"
 dependencies = [
  "file-operation",
  "http-type",
@@ -201,9 +201,9 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-time"
-version = "0.0.5"
+version = "0.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3860810b91d400e1b2a72630cab2ba3b17c9999370ac4bf2060183fb40cd74e1"
+checksum = "59ba1b8e29b16c629f22fc5e4c0d42ee54de9b363b3ebea5c716fdcf6d7c2c08"
 
 [[package]]
 name = "icu_collections"
@@ -380,9 +380,9 @@ checksum = "04cbf5b083de1c7e0222a7a51dbfdba1cbe1c6ab0b15e29fff3f6c077fd9cd9f"
 
 [[package]]
 name = "lombok-macros"
-version = "1.7.2"
+version = "1.7.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ac3a1f457ea8b03ddd966d80d3ff5642a440fc6293252e47777e22517ab4dbbc"
+checksum = "09ef4d1374d56438de85a648837714144c55b8d50c7ed0aeb1ff53269228fa54"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -485,9 +485,9 @@ dependencies = [
 
 [[package]]
 name = "recoverable-spawn"
-version = "3.4.0"
+version = "3.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6c02d7005acb0380d9c4abcd41bfc8b8567c16cc408d0d49e8a3c34a561f7793"
+checksum = "d8f83f9415c1dd5e5999bbbf97a4244386344b4e89552a547e0bcc3675b84024"
 dependencies = [
  "once_cell",
  "tokio",
