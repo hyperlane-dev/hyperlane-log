@@ -1,18 +1,4 @@
-use super::{
-    constant::*,
-    r#trait::{LogDataTrait, LogFuncTrait},
-    r#type::{Log, LogListArcLock},
-    utils::*,
-};
-use crate::{ArcLogFunc, ListLog};
-use file_operation::*;
-use http_type::*;
-use hyperlane_time::*;
-use once_cell::sync::Lazy;
-use std::{
-    sync::{Arc, RwLock},
-    vec,
-};
+use crate::*;
 
 static LOG_ERROR_QUEUE: Lazy<LogListArcLock> = Lazy::new(|| Arc::new(RwLock::new(Vec::new())));
 static LOG_INFO_QUEUE: Lazy<LogListArcLock> = Lazy::new(|| Arc::new(RwLock::new(Vec::new())));

@@ -1,11 +1,8 @@
-use super::r#trait::LogFuncTrait;
-use http_type::*;
-use lombok_macros::Lombok;
-use std::sync::Arc;
+use crate::*;
 
 pub type ListLog = Vec<(String, ArcLogFunc)>;
-pub type LogListArcLock = ArcRwLock<ListLog>;
-pub type LogArcLock = ArcRwLock<Log>;
+pub type LogListArcLock = Arc<RwLock<ListLog>>;
+pub type LogArcLock = Arc<RwLock<Log>>;
 pub type LogFunc = dyn LogFuncTrait;
 pub type ArcLogFunc = Arc<LogFunc>;
 
