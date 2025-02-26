@@ -1,6 +1,6 @@
 [package]
 name = "hyperlane-log"
-version = "1.1.28"
+version = "1.1.29"
 edition = "2021"
 authors = ["ltpp-universe <root@ltpp.vip>"] 
 license = "MIT"
@@ -12,7 +12,8 @@ exclude = [
     "target",
     "Cargo.lock",
     "sh",
-    ".github"
+    ".github",
+    "logs"
 ]
 
 [dependencies]
