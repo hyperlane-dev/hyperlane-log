@@ -1,7 +1,7 @@
 use crate::*;
 
 #[inline]
-pub fn get_second_element_from_filename(dir_path: &str) -> usize {
+pub(crate) fn get_second_element_from_filename(dir_path: &str) -> usize {
     let mut res_idx: usize = DEFAULT_LOG_FILE_START_IDX;
     if let Ok(entries) = read_dir(dir_path) {
         for entry in entries.filter_map(Result::ok) {
@@ -15,4 +15,26 @@ pub fn get_second_element_from_filename(dir_path: &str) -> usize {
         }
     }
     res_idx.max(DEFAULT_LOG_FILE_START_IDX)
+}
+
+#[inline]
+pub fn common_log<T: ToString>(data: &T) -> String {
+    format!("{}: {}{}", current_time(), data.to_string(), BR)
+}
+
+#[inline]
+pub fn log_handler<T: ToString>(log_data: &T) -> String {
+    common_log(log_data)
+}
+
+#[inline]
+pub fn log_debug_handler<T: std::fmt::Debug>(log_data: &T) -> String {
+    let write_data: String = format!("{}: {:?}{}", current_time(), log_data, BR);
+    write_data.clone()
+}
+
+#[inline]
+pub fn log_debug_format_handler<T: std::fmt::Debug>(log_data: &T) -> String {
+    let write_data: String = format!("{}: {:#?}{}", current_time(), log_data, BR);
+    write_data.clone()
 }
