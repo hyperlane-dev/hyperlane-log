@@ -58,9 +58,9 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "file-operation"
-version = "0.4.1"
+version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a9c0bae1faa895e58f4138036844fe4d7d6c22692c9ed140e39d97edc49df418"
+checksum = "8b795bb8a0d08dd1b6d6e2b02b83584e26dceb7016b9a57e438a5946530136e9"
 dependencies = [
  "tokio",
 ]
@@ -73,7 +73,7 @@ checksum = "07e28edb80900c19c28f1072f2e8aeca7fa06b23cd4169cefe1af5aa3260783f"
 
 [[package]]
 name = "hyperlane-log"
-version = "1.2.0"
+version = "1.2.1"
 dependencies = [
  "file-operation",
  "hyperlane-time",
@@ -84,9 +84,9 @@ dependencies = [
 
 [[package]]
 name = "hyperlane-time"
-version = "0.0.6"
+version = "0.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "59ba1b8e29b16c629f22fc5e4c0d42ee54de9b363b3ebea5c716fdcf6d7c2c08"
+checksum = "3560ff2c528d3fd9ba75e9f47096452a96fc2ae0cff838de71f8d2a8c80eb0bb"
 
 [[package]]
 name = "libc"
@@ -106,9 +106,9 @@ dependencies = [
 
 [[package]]
 name = "lombok-macros"
-version = "1.7.3"
+version = "1.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "09ef4d1374d56438de85a648837714144c55b8d50c7ed0aeb1ff53269228fa54"
+checksum = "d9203d7ef929978612d2c71f5e7ed13529d00e4e9b6a683a2c59713148ab574b"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -205,9 +205,9 @@ dependencies = [
 
 [[package]]
 name = "recoverable-spawn"
-version = "3.4.1"
+version = "3.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d8f83f9415c1dd5e5999bbbf97a4244386344b4e89552a547e0bcc3675b84024"
+checksum = "daa0209879a97de8df4ebe358164997474a2f4a02b82fd78615aea5dedb17d3c"
 dependencies = [
  "once_cell",
  "tokio",
