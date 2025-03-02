@@ -73,7 +73,7 @@ checksum = "07e28edb80900c19c28f1072f2e8aeca7fa06b23cd4169cefe1af5aa3260783f"
 
 [[package]]
 name = "hyperlane-log"
-version = "1.2.1"
+version = "1.2.2"
 dependencies = [
  "file-operation",
  "hyperlane-time",
@@ -106,9 +106,9 @@ dependencies = [
 
 [[package]]
 name = "lombok-macros"
-version = "1.7.4"
+version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9203d7ef929978612d2c71f5e7ed13529d00e4e9b6a683a2c59713148ab574b"
+checksum = "c093f50f1ac912704228373ec7c7b9e5c927bb37e7c37a8f3d3a53aad2249425"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -261,9 +261,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.96"
+version = "2.0.98"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d5d0adab1ae378d7f53bdebc67a39f1f151407ef230f0ce2883572f5d8985c80"
+checksum = "36147f1a48ae0ec2b5b3bc5b537d267457555a10dc06f3dbc8cb11ba3006d3b1"
 dependencies = [
  "proc-macro2",
  "quote",
