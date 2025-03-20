@@ -1,5 +1,5 @@
 use crate::Log;
-use recoverable_spawn::{sync::*, JoinHandle};
+use recoverable_spawn::{JoinHandle, sync::*};
 use std::{sync::Arc, thread::sleep, time::Duration};
 
 #[inline]

@@ -1,7 +1,7 @@
 pub(crate) mod cfg;
 pub(crate) mod log;
 
-pub use log::{constant::*, r#trait::*, r#type::*, thread::log_run, utils::*};
+pub use log::{constant::*, thread::log_run, r#trait::*, r#type::*, utils::*};
 pub use std::thread::JoinHandle;
 
 pub(crate) use file_operation::*;

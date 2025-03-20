@@ -1,7 +1,7 @@
 [package]
 name = "hyperlane-log"
-version = "1.2.4"
-edition = "2021"
+version = "1.3.0"
+edition = "2024"
 authors = ["ltpp-universe <root@ltpp.vip>"] 
 license = "MIT"
 description = """A Rust asynchronous logging library that runs on a dedicated thread to avoid blocking other threads. It supports multiple log levels (such as error, info, and debug), and allows custom log handling methods and configuration of log file paths. When a single log file reaches the specified size limit, a new log file will be automatically created."""
@@ -18,11 +18,11 @@ exclude = [
 ]
 
 [dependencies]
-file-operation = "0.4.3"
-hyperlane-time = "0.1.0"
-lombok-macros = "1.8.1"
+file-operation = "0.5.0"
+hyperlane-time = "0.2.0"
+lombok-macros = "1.9.0"
 once_cell = "1.21.1"
-recoverable-spawn = "3.4.3"
+recoverable-spawn = "3.5.0"
 
 [profile.dev]
 incremental = false
