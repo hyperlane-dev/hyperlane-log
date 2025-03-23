@@ -29,7 +29,7 @@ impl Log {
     }
 
     pub(super) fn id_disable(&self) -> bool {
-        self.get_file_size() == &0
+        self.get_file_size() == &DISABLE_LOG_FILE_SIZE
     }
 
     fn write(list: &mut Vec<(String, ArcLogFunc)>, path: &str) {

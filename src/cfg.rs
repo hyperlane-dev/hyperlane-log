@@ -25,7 +25,7 @@ fn test_more_log_first() {
     use crate::*;
     use std::thread;
     use std::time::Duration;
-    let log: Log = Log::new("./logs", 0, 360);
+    let log: Log = Log::new("./logs", DISABLE_LOG_FILE_SIZE, 360);
     let _log_thread: JoinHandle<()> = log_run(&log);
     log.error("error data => ", |error| {
         let write_data: String = format!("User error func =>  {:?}\n", error);

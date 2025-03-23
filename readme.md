@@ -52,7 +52,7 @@ let _ = log_thread.join();
 ## Disable log
 
 ```rust
-let log: Log = Log::new("./logs", 0, 360);
+let log: Log = Log::new("./logs", DISABLE_LOG_FILE_SIZE, 360);
 ```
 
 ## License
