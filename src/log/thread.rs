@@ -5,7 +5,7 @@ pub fn log_run(log: &Log) -> JoinHandle<()> {
     let log_thread: JoinHandle<()> = recoverable_spawn(move || {
         let arc_log_clone: ArcLog = Arc::clone(&arc_log);
         let interval_millis: u64 = *arc_log_clone.get_interval_millis() as u64;
-        if arc_log_clone.id_disable() {
+        if arc_log_clone.is_disable() {
             return;
         }
         let _ = recoverable_spawn(move || {

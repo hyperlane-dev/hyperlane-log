@@ -28,8 +28,12 @@ impl Log {
         }
     }
 
-    pub fn id_disable(&self) -> bool {
-        self.get_file_size() == &DISABLE_LOG_FILE_SIZE
+    pub fn is_enable(&self) -> bool {
+        self.get_file_size() != &DISABLE_LOG_FILE_SIZE
+    }
+
+    pub fn is_disable(&self) -> bool {
+        !self.is_enable()
     }
 
     fn write(list: &mut Vec<(String, ArcLogFunc)>, path: &str) {
@@ -44,7 +48,7 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        if self.id_disable() {
+        if self.is_disable() {
             return self;
         }
         let data_string: String = data.into();
