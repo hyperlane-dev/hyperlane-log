@@ -86,7 +86,7 @@ impl Log {
         let mut combined_path_clone: String = combined_path.clone();
         combined_path.push_str(&self.get_file_name(idx));
         let file_size: usize = get_file_size(&combined_path).unwrap_or_default() as usize;
-        if file_size <= self.file_size {
+        if &file_size <= self.get_file_size() {
             return combined_path;
         }
         combined_path_clone.push_str(&self.get_file_name(idx + 1));
