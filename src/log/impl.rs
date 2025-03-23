@@ -5,7 +5,6 @@ static LOG_INFO_QUEUE: Lazy<LogListArcLock> = Lazy::new(|| Arc::new(RwLock::new(
 static LOG_DEBUG_QUEUE: Lazy<LogListArcLock> = Lazy::new(|| Arc::new(RwLock::new(Vec::new())));
 
 impl Default for Log {
-    #[inline]
     fn default() -> Self {
         Self {
             path: DEFAULT_LOG_DIR.to_owned(),
@@ -16,7 +15,6 @@ impl Default for Log {
 }
 
 impl Log {
-    #[inline]
     pub fn new<T>(path: T, file_size: usize, interval_millis: usize) -> Self
     where
         T: Into<String>,
@@ -28,7 +26,6 @@ impl Log {
         }
     }
 
-    #[inline]
     fn write(list: &mut Vec<(String, ArcLogFunc)>, path: &str) {
         for (log_string, func) in list.iter() {
             let out: String = func(log_string);
@@ -36,7 +33,6 @@ impl Log {
         }
     }
 
-    #[inline]
     fn add_data<T, L>(log_queue: &LogListArcLock, data: T, func: L)
     where
         T: LogDataTrait,
@@ -50,7 +46,6 @@ impl Log {
         }
     }
 
-    #[inline]
     fn get_file_name(&self, idx: usize) -> String {
         format!(
             "{}{}{}{}{}{}",
@@ -63,12 +58,10 @@ impl Log {
         )
     }
 
-    #[inline]
     fn get_file_dir_name(&self) -> String {
         format!("{}{}", ROOT_PATH, current_date())
     }
 
-    #[inline]
     fn get_log_path(&self, system_dir: &str) -> String {
         let base_path: &String = self.get_path();
         let mut combined_path: String = base_path.trim_end_matches(ROOT_PATH).to_string();
@@ -92,7 +85,6 @@ impl Log {
         combined_path_clone
     }
 
-    #[inline]
     pub(super) fn write_error(&self) {
         let mut list: ListLog = if let Ok(mut error) = LOG_ERROR_QUEUE.write() {
             let tmp_error: ListLog = error.drain(..).collect::<Vec<_>>();
@@ -103,7 +95,6 @@ impl Log {
         Self::write(&mut list, &self.get_log_path(ERROR_DIR));
     }
 
-    #[inline]
     pub(super) fn write_info(&self) {
         let mut list: ListLog = if let Ok(mut info) = LOG_INFO_QUEUE.write() {
             let tmp_info: ListLog = info.drain(..).collect::<Vec<_>>();
@@ -114,7 +105,6 @@ impl Log {
         Self::write(&mut list, &self.get_log_path(INFO_DIR));
     }
 
-    #[inline]
     pub(super) fn write_debug(&self) {
         let mut list: ListLog = if let Ok(mut debug) = LOG_DEBUG_QUEUE.write() {
             let tmp_debug: ListLog = debug.drain(..).collect::<Vec<_>>();
@@ -125,7 +115,6 @@ impl Log {
         Self::write(&mut list, &self.get_log_path(DEBUG_DIR));
     }
 
-    #[inline]
     pub fn error<T, L>(&self, data: T, func: L)
     where
         T: LogDataTrait,
@@ -134,7 +123,6 @@ impl Log {
         Self::add_data(&LOG_ERROR_QUEUE, data, func);
     }
 
-    #[inline]
     pub fn info<T, L>(&self, data: T, func: L)
     where
         T: LogDataTrait,
@@ -143,7 +131,6 @@ impl Log {
         Self::add_data(&LOG_INFO_QUEUE, data, func);
     }
 
-    #[inline]
     pub fn debug<T, L>(&self, data: T, func: L)
     where
         T: LogDataTrait,

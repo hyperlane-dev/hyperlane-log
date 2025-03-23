@@ -2,7 +2,6 @@ use crate::Log;
 use recoverable_spawn::{JoinHandle, sync::*};
 use std::{sync::Arc, thread::sleep, time::Duration};
 
-#[inline]
 pub fn log_run(log: &Log) -> JoinHandle<()> {
     let arc_log: Arc<Log> = Arc::new(log.clone());
     let log_thread: JoinHandle<()> = recoverable_spawn(move || {
