@@ -28,7 +28,7 @@ impl Log {
         }
     }
 
-    pub(super) fn id_disable(&self) -> bool {
+    pub fn id_disable(&self) -> bool {
         self.get_file_size() == &DISABLE_LOG_FILE_SIZE
     }
 
