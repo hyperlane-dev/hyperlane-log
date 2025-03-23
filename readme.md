@@ -49,6 +49,12 @@ log.debug("debug data!", |debug| {
 let _ = log_thread.join();
 ```
 
+## Disable log
+
+```rust
+let log: Log = Log::new("./logs", 0, 360);
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

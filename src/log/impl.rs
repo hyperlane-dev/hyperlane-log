@@ -1,15 +1,14 @@
 use crate::*;
 
-static LOG_ERROR_QUEUE: Lazy<LogListArcLock> = Lazy::new(|| Arc::new(RwLock::new(Vec::new())));
-static LOG_INFO_QUEUE: Lazy<LogListArcLock> = Lazy::new(|| Arc::new(RwLock::new(Vec::new())));
-static LOG_DEBUG_QUEUE: Lazy<LogListArcLock> = Lazy::new(|| Arc::new(RwLock::new(Vec::new())));
-
 impl Default for Log {
     fn default() -> Self {
         Self {
             path: DEFAULT_LOG_DIR.to_owned(),
             file_size: DEFAULT_LOG_FILE_SIZE,
             interval_millis: DEFAULT_LOG_INTERVAL_MILLIS,
+            log_error_queue: Arc::new(RwLock::new(Vec::new())),
+            log_info_queue: Arc::new(RwLock::new(Vec::new())),
+            log_debug_queue: Arc::new(RwLock::new(Vec::new())),
         }
     }
 }
@@ -23,7 +22,14 @@ impl Log {
             path: path.into(),
             file_size,
             interval_millis,
+            log_error_queue: Arc::new(RwLock::new(Vec::new())),
+            log_info_queue: Arc::new(RwLock::new(Vec::new())),
+            log_debug_queue: Arc::new(RwLock::new(Vec::new())),
         }
+    }
+
+    pub(super) fn id_disable(&self) -> bool {
+        self.get_file_size() == &0
     }
 
     fn write(list: &mut Vec<(String, ArcLogFunc)>, path: &str) {
@@ -33,17 +39,19 @@ impl Log {
         }
     }
 
-    fn add_data<T, L>(log_queue: &LogListArcLock, data: T, func: L)
+    fn add_data<T, L>(&self, log_queue: &LogListArcLock, data: T, func: L) -> &Self
     where
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        let data_string: String = data.into();
-        {
-            if let Ok(mut queue) = log_queue.write() {
-                queue.push((data_string, Arc::new(func)));
-            }
+        if self.id_disable() {
+            return self;
         }
+        let data_string: String = data.into();
+        if let Ok(mut queue) = log_queue.write() {
+            queue.push((data_string, Arc::new(func)));
+        }
+        self
     }
 
     fn get_file_name(&self, idx: usize) -> String {
@@ -54,7 +62,7 @@ impl Log {
             POINT,
             idx,
             POINT,
-            LOG_EXTION
+            LOG_EXTENSION
         )
     }
 
@@ -86,7 +94,7 @@ impl Log {
     }
 
     pub(super) fn write_error(&self) {
-        let mut list: ListLog = if let Ok(mut error) = LOG_ERROR_QUEUE.write() {
+        let mut list: ListLog = if let Ok(mut error) = self.get_log_error_queue().write() {
             let tmp_error: ListLog = error.drain(..).collect::<Vec<_>>();
             tmp_error
         } else {
@@ -96,7 +104,7 @@ impl Log {
     }
 
     pub(super) fn write_info(&self) {
-        let mut list: ListLog = if let Ok(mut info) = LOG_INFO_QUEUE.write() {
+        let mut list: ListLog = if let Ok(mut info) = self.get_log_info_queue().write() {
             let tmp_info: ListLog = info.drain(..).collect::<Vec<_>>();
             tmp_info
         } else {
@@ -106,7 +114,7 @@ impl Log {
     }
 
     pub(super) fn write_debug(&self) {
-        let mut list: ListLog = if let Ok(mut debug) = LOG_DEBUG_QUEUE.write() {
+        let mut list: ListLog = if let Ok(mut debug) = self.get_log_debug_queue().write() {
             let tmp_debug: ListLog = debug.drain(..).collect::<Vec<_>>();
             tmp_debug
         } else {
@@ -115,27 +123,30 @@ impl Log {
         Self::write(&mut list, &self.get_log_path(DEBUG_DIR));
     }
 
-    pub fn error<T, L>(&self, data: T, func: L)
+    pub fn error<T, L>(&self, data: T, func: L) -> &Self
     where
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        Self::add_data(&LOG_ERROR_QUEUE, data, func);
+        self.add_data(self.get_log_error_queue(), data, func);
+        self
     }
 
-    pub fn info<T, L>(&self, data: T, func: L)
+    pub fn info<T, L>(&self, data: T, func: L) -> &Self
     where
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        Self::add_data(&LOG_INFO_QUEUE, data, func);
+        self.add_data(self.get_log_info_queue(), data, func);
+        self
     }
 
-    pub fn debug<T, L>(&self, data: T, func: L)
+    pub fn debug<T, L>(&self, data: T, func: L) -> &Self
     where
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        Self::add_data(&LOG_DEBUG_QUEUE, data, func);
+        self.add_data(self.get_log_debug_queue(), data, func);
+        self
     }
 }
