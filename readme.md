@@ -14,7 +14,7 @@
 
 [Api Docs](https://docs.rs/hyperlane-log/latest/hyperlane_log/)
 
-> A Rust asynchronous logging library that runs on a dedicated thread to avoid blocking other threads. It supports multiple log levels (such as error, info, and debug), and allows custom log handling methods and configuration of log file paths. When a single log file reaches the specified size limit, a new log file will be automatically created.
+> This Rust logging library supports both asynchronous and synchronous logging. It provides multiple log levels such as error, info, and debug. Users can define custom log handling methods and configure log file paths. The library supports log rotation, automatically creating a new log file when the current file reaches the specified size limit. It allows flexible logging configurations, making it suitable for both high-performance asynchronous applications and traditional synchronous logging scenarios. The asynchronous mode uses Tokio's async channels for efficient log buffering, while the synchronous mode writes logs directly to the file system.
 
 ## Installation
 
@@ -28,12 +28,11 @@ cargo add hyperlane-log
 
 > Three directories will be created under the user-specified directory: one for error logs, one for info logs, and one for debug logs. Each of these directories will contain a subdirectory named by the date, and the log files within these subdirectories will be named in the format `timestamp.index.log`.
 
-## Use
+## Use sync
 
 ```rust
 use hyperlane_log::*;
-let log: Log = Log::new("./logs", 1_024_000, 360);
-let log_thread: JoinHandle<()> = log_run(&log);
+let log: Log = Log::new("./logs", 1_024_000);
 log.error("error data!", |error| {
     let write_data: String = format!("User error func =>  {:?}\n", error);
     write_data
@@ -46,13 +45,31 @@ log.debug("debug data!", |debug| {
     let write_data: String = format!("User debug func =>  {:#?}\n", debug);
     write_data
 });
-let _ = log_thread.join();
+```
+
+## Use async
+
+```rust
+use hyperlane_log::*;
+let log: Log = Log::new("./logs", 1_024_000);
+log.async_error("async error data!", |error| {
+    let write_data: String = format!("User error func =>  {:?}\n", error);
+    write_data
+});
+log.async_info("async info data!", |info| {
+    let write_data: String = format!("User info func =>  {:?}\n", info);
+    write_data
+});
+log.async_debug("async debug data!", |debug| {
+    let write_data: String = format!("User debug func =>  {:#?}\n", debug);
+    write_data
+});
 ```
 
 ## Disable log
 
 ```rust
-let log: Log = Log::new("./logs", DISABLE_LOG_FILE_SIZE, 360);
+let log: Log = Log::new("./logs", DISABLE_LOG_FILE_SIZE);
 ```
 
 ## License

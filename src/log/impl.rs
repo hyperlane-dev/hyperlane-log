@@ -5,7 +5,6 @@ impl Default for Log {
         Self {
             path: DEFAULT_LOG_DIR.to_owned(),
             file_size: DEFAULT_LOG_FILE_SIZE,
-            interval_millis: DEFAULT_LOG_INTERVAL_MILLIS,
             log_error_queue: Arc::new(RwLock::new(Vec::new())),
             log_info_queue: Arc::new(RwLock::new(Vec::new())),
             log_debug_queue: Arc::new(RwLock::new(Vec::new())),
@@ -14,14 +13,13 @@ impl Default for Log {
 }
 
 impl Log {
-    pub fn new<T>(path: T, file_size: usize, interval_millis: usize) -> Self
+    pub fn new<T>(path: T, file_size: usize) -> Self
     where
         T: Into<String>,
     {
         Self {
             path: path.into(),
             file_size,
-            interval_millis,
             log_error_queue: Arc::new(RwLock::new(Vec::new())),
             log_info_queue: Arc::new(RwLock::new(Vec::new())),
             log_debug_queue: Arc::new(RwLock::new(Vec::new())),
@@ -36,14 +34,7 @@ impl Log {
         !self.is_enable()
     }
 
-    fn write(list: &mut Vec<(String, ArcLogFunc)>, path: &str) {
-        for (log_string, func) in list.iter() {
-            let out: String = func(log_string);
-            let _ = append_to_file(path, &out.as_bytes());
-        }
-    }
-
-    fn add_data<T, L>(&self, log_queue: &LogListArcLock, data: T, func: L) -> &Self
+    fn add_data<T, L>(&self, data: T, func: L, path: String, is_sync: bool) -> &Self
     where
         T: LogDataTrait,
         L: LogFuncTrait,
@@ -52,8 +43,15 @@ impl Log {
             return self;
         }
         let data_string: String = data.into();
-        if let Ok(mut queue) = log_queue.write() {
-            queue.push((data_string, Arc::new(func)));
+        let out: String = func(&data_string);
+        if is_sync {
+            let _ = r#sync::run_function(move || {
+                let _ = append_to_file(&path, &out.as_bytes());
+            });
+        } else {
+            let _ = r#async::run_function(move || async move {
+                let _ = async_append_to_file(&path, &out.as_bytes()).await;
+            });
         }
         self
     }
@@ -97,42 +95,21 @@ impl Log {
         combined_path_clone
     }
 
-    pub(super) fn write_error(&self) {
-        let mut list: ListLog = if let Ok(mut error) = self.get_log_error_queue().write() {
-            let tmp_error: ListLog = error.drain(..).collect::<Vec<_>>();
-            tmp_error
-        } else {
-            vec![]
-        };
-        Self::write(&mut list, &self.get_log_path(ERROR_DIR));
-    }
-
-    pub(super) fn write_info(&self) {
-        let mut list: ListLog = if let Ok(mut info) = self.get_log_info_queue().write() {
-            let tmp_info: ListLog = info.drain(..).collect::<Vec<_>>();
-            tmp_info
-        } else {
-            vec![]
-        };
-        Self::write(&mut list, &self.get_log_path(INFO_DIR));
-    }
-
-    pub(super) fn write_debug(&self) {
-        let mut list: ListLog = if let Ok(mut debug) = self.get_log_debug_queue().write() {
-            let tmp_debug: ListLog = debug.drain(..).collect::<Vec<_>>();
-            tmp_debug
-        } else {
-            vec![]
-        };
-        Self::write(&mut list, &self.get_log_path(DEBUG_DIR));
-    }
-
     pub fn error<T, L>(&self, data: T, func: L) -> &Self
     where
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.add_data(self.get_log_error_queue(), data, func);
+        self.add_data(data, func, self.get_log_path(ERROR_DIR), true);
+        self
+    }
+
+    pub fn async_error<T, L>(&self, data: T, func: L) -> &Self
+    where
+        T: LogDataTrait,
+        L: LogFuncTrait,
+    {
+        self.add_data(data, func, self.get_log_path(ERROR_DIR), false);
         self
     }
 
@@ -141,7 +118,16 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.add_data(self.get_log_info_queue(), data, func);
+        self.add_data(data, func, self.get_log_path(INFO_DIR), true);
+        self
+    }
+
+    pub fn async_info<T, L>(&self, data: T, func: L) -> &Self
+    where
+        T: LogDataTrait,
+        L: LogFuncTrait,
+    {
+        self.add_data(data, func, self.get_log_path(INFO_DIR), false);
         self
     }
 
@@ -150,7 +136,16 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.add_data(self.get_log_debug_queue(), data, func);
+        self.add_data(data, func, self.get_log_path(DEBUG_DIR), true);
+        self
+    }
+
+    pub fn async_debug<T, L>(&self, data: T, func: L) -> &Self
+    where
+        T: LogDataTrait,
+        L: LogFuncTrait,
+    {
+        self.add_data(data, func, self.get_log_path(DEBUG_DIR), false);
         self
     }
 }
