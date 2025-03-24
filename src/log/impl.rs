@@ -5,9 +5,6 @@ impl Default for Log {
         Self {
             path: DEFAULT_LOG_DIR.to_owned(),
             limit_file_size: DEFAULT_LOG_FILE_SIZE,
-            log_error_queue: Arc::new(RwLock::new(Vec::new())),
-            log_info_queue: Arc::new(RwLock::new(Vec::new())),
-            log_debug_queue: Arc::new(RwLock::new(Vec::new())),
         }
     }
 }
@@ -20,9 +17,6 @@ impl Log {
         Self {
             path: path.into(),
             limit_file_size,
-            log_error_queue: Arc::new(RwLock::new(Vec::new())),
-            log_info_queue: Arc::new(RwLock::new(Vec::new())),
-            log_debug_queue: Arc::new(RwLock::new(Vec::new())),
         }
     }
 
@@ -34,7 +28,7 @@ impl Log {
         !self.is_enable()
     }
 
-    fn add_data<T, L>(&self, data: T, func: L, path: String, is_sync: bool) -> &Self
+    fn write_data<T, L>(&self, data: T, func: L, path: String, is_sync: bool) -> &Self
     where
         T: LogDataTrait,
         L: LogFuncTrait,
@@ -61,13 +55,12 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.add_data(
+        self.write_data(
             data,
             func,
             get_log_path(ERROR_DIR, self.get_path(), self.get_limit_file_size()),
             is_sync,
-        );
-        self
+        )
     }
 
     fn common_info<T, L>(&self, data: T, func: L, is_sync: bool) -> &Self
@@ -75,13 +68,12 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.add_data(
+        self.write_data(
             data,
             func,
             get_log_path(INFO_DIR, self.get_path(), self.get_limit_file_size()),
             is_sync,
-        );
-        self
+        )
     }
 
     fn common_debug<T, L>(&self, data: T, func: L, is_sync: bool) -> &Self
@@ -89,13 +81,12 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.add_data(
+        self.write_data(
             data,
             func,
             get_log_path(DEBUG_DIR, self.get_path(), self.get_limit_file_size()),
             is_sync,
-        );
-        self
+        )
     }
 
     pub fn error<T, L>(&self, data: T, func: L) -> &Self
@@ -103,8 +94,7 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.common_error(data, func, true);
-        self
+        self.common_error(data, func, true)
     }
 
     pub fn async_error<T, L>(&self, data: T, func: L) -> &Self
@@ -112,8 +102,7 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.common_error(data, func, false);
-        self
+        self.common_error(data, func, false)
     }
 
     pub fn info<T, L>(&self, data: T, func: L) -> &Self
@@ -121,8 +110,7 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.common_info(data, func, true);
-        self
+        self.common_info(data, func, true)
     }
 
     pub fn async_info<T, L>(&self, data: T, func: L) -> &Self
@@ -130,8 +118,7 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.common_info(data, func, false);
-        self
+        self.common_info(data, func, false)
     }
 
     pub fn debug<T, L>(&self, data: T, func: L) -> &Self
@@ -139,8 +126,7 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.common_debug(data, func, true);
-        self
+        self.common_debug(data, func, true)
     }
 
     pub fn async_debug<T, L>(&self, data: T, func: L) -> &Self
@@ -148,7 +134,6 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.common_debug(data, func, false);
-        self
+        self.common_debug(data, func, false)
     }
 }

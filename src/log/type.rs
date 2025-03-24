@@ -11,7 +11,4 @@ pub type ArcLog = Arc<Log>;
 pub struct Log {
     pub(super) path: String,
     pub(super) limit_file_size: usize,
-    pub(super) log_error_queue: LogListArcLock,
-    pub(super) log_info_queue: LogListArcLock,
-    pub(super) log_debug_queue: LogListArcLock,
 }
