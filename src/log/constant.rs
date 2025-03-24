@@ -6,7 +6,6 @@ pub static LOG_EXTENSION: &str = "log";
 pub static DEFAULT_LOG_FILE_START_IDX: usize = 1;
 pub static DEFAULT_LOG_FILE_SIZE: usize = 1_024_000_000;
 pub static DISABLE_LOG_FILE_SIZE: usize = 0;
-pub static DEFAULT_LOG_INTERVAL_MILLIS: usize = 360;
 pub(crate) static ROOT_PATH: &str = "/";
 pub(crate) static POINT: &str = ".";
 pub(crate) static BR: &str = "\n";

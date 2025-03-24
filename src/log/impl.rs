@@ -4,7 +4,7 @@ impl Default for Log {
     fn default() -> Self {
         Self {
             path: DEFAULT_LOG_DIR.to_owned(),
-            file_size: DEFAULT_LOG_FILE_SIZE,
+            limit_file_size: DEFAULT_LOG_FILE_SIZE,
             log_error_queue: Arc::new(RwLock::new(Vec::new())),
             log_info_queue: Arc::new(RwLock::new(Vec::new())),
             log_debug_queue: Arc::new(RwLock::new(Vec::new())),
@@ -13,13 +13,13 @@ impl Default for Log {
 }
 
 impl Log {
-    pub fn new<T>(path: T, file_size: usize) -> Self
+    pub fn new<T>(path: T, limit_file_size: usize) -> Self
     where
         T: Into<String>,
     {
         Self {
             path: path.into(),
-            file_size,
+            limit_file_size,
             log_error_queue: Arc::new(RwLock::new(Vec::new())),
             log_info_queue: Arc::new(RwLock::new(Vec::new())),
             log_debug_queue: Arc::new(RwLock::new(Vec::new())),
@@ -27,7 +27,7 @@ impl Log {
     }
 
     pub fn is_enable(&self) -> bool {
-        self.get_file_size() != &DISABLE_LOG_FILE_SIZE
+        self.get_limit_file_size() != &DISABLE_LOG_FILE_SIZE
     }
 
     pub fn is_disable(&self) -> bool {
@@ -56,43 +56,46 @@ impl Log {
         self
     }
 
-    fn get_file_name(&self, idx: usize) -> String {
-        format!(
-            "{}{}{}{}{}{}",
-            ROOT_PATH,
-            current_date(),
-            POINT,
-            idx,
-            POINT,
-            LOG_EXTENSION
-        )
-    }
-
-    fn get_file_dir_name(&self) -> String {
-        format!("{}{}", ROOT_PATH, current_date())
-    }
-
-    fn get_log_path(&self, system_dir: &str) -> String {
-        let base_path: &String = self.get_path();
-        let mut combined_path: String = base_path.trim_end_matches(ROOT_PATH).to_string();
-        if !system_dir.starts_with(ROOT_PATH) {
-            combined_path.push_str(ROOT_PATH);
-        }
-        combined_path.push_str(
-            system_dir
-                .trim_start_matches(ROOT_PATH)
-                .trim_end_matches(ROOT_PATH),
+    fn common_error<T, L>(&self, data: T, func: L, is_sync: bool) -> &Self
+    where
+        T: LogDataTrait,
+        L: LogFuncTrait,
+    {
+        self.add_data(
+            data,
+            func,
+            get_log_path(ERROR_DIR, self.get_path(), self.get_limit_file_size()),
+            is_sync,
         );
-        combined_path.push_str(&self.get_file_dir_name());
-        let idx: usize = get_second_element_from_filename(&combined_path);
-        let mut combined_path_clone: String = combined_path.clone();
-        combined_path.push_str(&self.get_file_name(idx));
-        let file_size: usize = get_file_size(&combined_path).unwrap_or_default() as usize;
-        if &file_size <= self.get_file_size() {
-            return combined_path;
-        }
-        combined_path_clone.push_str(&self.get_file_name(idx + 1));
-        combined_path_clone
+        self
+    }
+
+    fn common_info<T, L>(&self, data: T, func: L, is_sync: bool) -> &Self
+    where
+        T: LogDataTrait,
+        L: LogFuncTrait,
+    {
+        self.add_data(
+            data,
+            func,
+            get_log_path(INFO_DIR, self.get_path(), self.get_limit_file_size()),
+            is_sync,
+        );
+        self
+    }
+
+    fn common_debug<T, L>(&self, data: T, func: L, is_sync: bool) -> &Self
+    where
+        T: LogDataTrait,
+        L: LogFuncTrait,
+    {
+        self.add_data(
+            data,
+            func,
+            get_log_path(DEBUG_DIR, self.get_path(), self.get_limit_file_size()),
+            is_sync,
+        );
+        self
     }
 
     pub fn error<T, L>(&self, data: T, func: L) -> &Self
@@ -100,7 +103,7 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.add_data(data, func, self.get_log_path(ERROR_DIR), true);
+        self.common_error(data, func, true);
         self
     }
 
@@ -109,7 +112,7 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.add_data(data, func, self.get_log_path(ERROR_DIR), false);
+        self.common_error(data, func, false);
         self
     }
 
@@ -118,7 +121,7 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.add_data(data, func, self.get_log_path(INFO_DIR), true);
+        self.common_info(data, func, true);
         self
     }
 
@@ -127,7 +130,7 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.add_data(data, func, self.get_log_path(INFO_DIR), false);
+        self.common_info(data, func, false);
         self
     }
 
@@ -136,7 +139,7 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.add_data(data, func, self.get_log_path(DEBUG_DIR), true);
+        self.common_debug(data, func, true);
         self
     }
 
@@ -145,7 +148,7 @@ impl Log {
         T: LogDataTrait,
         L: LogFuncTrait,
     {
-        self.add_data(data, func, self.get_log_path(DEBUG_DIR), false);
+        self.common_debug(data, func, false);
         self
     }
 }

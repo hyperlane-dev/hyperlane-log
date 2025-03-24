@@ -71,7 +71,7 @@ fn test_more_log_second() {
     use std::time::Duration;
     for _ in 0..10 {
         recoverable_spawn::sync::recoverable_spawn(move || {
-            let log: Log = Log::new("./logs", 1_024_000_000);
+            let log: Log = Log::new("./logs", 512_000);
             loop {
                 log.error("error data!", |error| {
                     let write_data: String = format!("User error func =>  {:?}\n", error);
