@@ -1,16 +1,16 @@
 use crate::*;
 
-impl<'a> Default for Log<'a> {
+impl Default for Log {
     fn default() -> Self {
         Self {
-            path: DEFAULT_LOG_DIR,
+            path: DEFAULT_LOG_DIR.to_owned(),
             limit_file_size: DEFAULT_LOG_FILE_SIZE,
         }
     }
 }
 
-impl<'a> Log<'a> {
-    pub fn new(path: &'a str, limit_file_size: usize) -> Self {
+impl Log {
+    pub fn new(path: &str, limit_file_size: usize) -> Self {
         Self {
             path: path.into(),
             limit_file_size,
