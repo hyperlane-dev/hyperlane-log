@@ -1,19 +1,16 @@
 use crate::*;
 
-impl Default for Log {
+impl<'a> Default for Log<'a> {
     fn default() -> Self {
         Self {
-            path: DEFAULT_LOG_DIR.to_owned(),
+            path: DEFAULT_LOG_DIR,
             limit_file_size: DEFAULT_LOG_FILE_SIZE,
         }
     }
 }
 
-impl Log {
-    pub fn new<T>(path: T, limit_file_size: usize) -> Self
-    where
-        T: Into<String>,
-    {
+impl<'a> Log<'a> {
+    pub fn new(path: &'a str, limit_file_size: usize) -> Self {
         Self {
             path: path.into(),
             limit_file_size,
@@ -28,16 +25,14 @@ impl Log {
         !self.is_enable()
     }
 
-    fn write_data<T, L>(&self, data: T, func: L, path: String, is_sync: bool) -> &Self
+    fn write_data<L>(&self, data: &str, func: L, path: String, is_sync: bool) -> &Self
     where
-        T: LogDataTrait,
         L: LogFuncTrait,
     {
         if self.is_disable() {
             return self;
         }
-        let data_string: String = data.into();
-        let out: String = func(&data_string);
+        let out: String = func(data);
         if is_sync {
             let _ = r#sync::run_function(move || {
                 let _ = append_to_file(&path, &out.as_bytes());
@@ -50,9 +45,8 @@ impl Log {
         self
     }
 
-    fn common_error<T, L>(&self, data: T, func: L, is_sync: bool) -> &Self
+    fn common_error<L>(&self, data: &str, func: L, is_sync: bool) -> &Self
     where
-        T: LogDataTrait,
         L: LogFuncTrait,
     {
         self.write_data(
@@ -63,9 +57,8 @@ impl Log {
         )
     }
 
-    fn common_info<T, L>(&self, data: T, func: L, is_sync: bool) -> &Self
+    fn common_info<L>(&self, data: &str, func: L, is_sync: bool) -> &Self
     where
-        T: LogDataTrait,
         L: LogFuncTrait,
     {
         self.write_data(
@@ -76,9 +69,8 @@ impl Log {
         )
     }
 
-    fn common_debug<T, L>(&self, data: T, func: L, is_sync: bool) -> &Self
+    fn common_debug<L>(&self, data: &str, func: L, is_sync: bool) -> &Self
     where
-        T: LogDataTrait,
         L: LogFuncTrait,
     {
         self.write_data(
@@ -89,49 +81,43 @@ impl Log {
         )
     }
 
-    pub fn error<T, L>(&self, data: T, func: L) -> &Self
+    pub fn error<L>(&self, data: &str, func: L) -> &Self
     where
-        T: LogDataTrait,
         L: LogFuncTrait,
     {
         self.common_error(data, func, true)
     }
 
-    pub fn async_error<T, L>(&self, data: T, func: L) -> &Self
+    pub fn async_error<L>(&self, data: &str, func: L) -> &Self
     where
-        T: LogDataTrait,
         L: LogFuncTrait,
     {
         self.common_error(data, func, false)
     }
 
-    pub fn info<T, L>(&self, data: T, func: L) -> &Self
+    pub fn info<L>(&self, data: &str, func: L) -> &Self
     where
-        T: LogDataTrait,
         L: LogFuncTrait,
     {
         self.common_info(data, func, true)
     }
 
-    pub fn async_info<T, L>(&self, data: T, func: L) -> &Self
+    pub fn async_info<L>(&self, data: &str, func: L) -> &Self
     where
-        T: LogDataTrait,
         L: LogFuncTrait,
     {
         self.common_info(data, func, false)
     }
 
-    pub fn debug<T, L>(&self, data: T, func: L) -> &Self
+    pub fn debug<L>(&self, data: &str, func: L) -> &Self
     where
-        T: LogDataTrait,
         L: LogFuncTrait,
     {
         self.common_debug(data, func, true)
     }
 
-    pub fn async_debug<T, L>(&self, data: T, func: L) -> &Self
+    pub fn async_debug<L>(&self, data: &str, func: L) -> &Self
     where
-        T: LogDataTrait,
         L: LogFuncTrait,
     {
         self.common_debug(data, func, false)

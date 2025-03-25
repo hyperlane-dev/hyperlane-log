@@ -54,20 +54,15 @@ pub(crate) fn get_log_path(system_dir: &str, base_path: &str, limit_file_size: &
     combined_path_clone
 }
 
-pub fn common_log<T: ToString>(data: &T) -> String {
-    format!("{}: {}{}", current_time(), data.to_string(), BR)
+pub fn common_log(data: &str) -> String {
+    let mut log_string: String = String::new();
+    for line in data.lines() {
+        let line_string: String = format!("{}: {}{}", current_time(), line, BR);
+        log_string.push_str(&line_string);
+    }
+    log_string
 }
 
-pub fn log_handler<T: ToString>(log_data: &T) -> String {
+pub fn log_handler(log_data: &str) -> String {
     common_log(log_data)
-}
-
-pub fn log_debug_handler<T: std::fmt::Debug>(log_data: &T) -> String {
-    let write_data: String = format!("{}: {:?}{}", current_time(), log_data, BR);
-    write_data.clone()
-}
-
-pub fn log_debug_format_handler<T: std::fmt::Debug>(log_data: &T) -> String {
-    let write_data: String = format!("{}: {:#?}{}", current_time(), log_data, BR);
-    write_data.clone()
 }
