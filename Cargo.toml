@@ -1,6 +1,6 @@
 [package]
 name = "hyperlane-log"
-version = "1.10.8"
+version = "1.10.9"
 edition = "2024"
 authors = ["ltpp-universe <root@ltpp.vip>"] 
 license = "MIT"
@@ -20,7 +20,7 @@ exclude = [
 [dependencies]
 file-operation = "=0.5.2"
 hyperlane-time = "=0.2.1"
-lombok-macros = "=1.9.4"
+lombok-macros = "=1.9.5"
 recoverable-spawn = "=3.5.4"
 
 [profile.dev]
