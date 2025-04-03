@@ -1,5 +1,5 @@
-#[test]
-fn test() {
+#[tokio::test]
+async fn test() {
     use crate::*;
     use std::thread;
     use std::time::Duration;
@@ -19,20 +19,23 @@ fn test() {
     log.async_error("async error data", |error| {
         let write_data: String = format!("User error func =>  {:?}\n", error);
         write_data
-    });
+    })
+    .await;
     log.async_info("async info data", |info| {
         let write_data: String = format!("User info func =>  {:?}\n", info);
         write_data
-    });
+    })
+    .await;
     log.async_debug("async debug data", |debug| {
         let write_data: String = format!("User debug func =>  {:#?}\n", debug);
         write_data
-    });
+    })
+    .await;
     thread::sleep(Duration::new(6, 0));
 }
 
-#[test]
-fn test_more_log_first() {
+#[tokio::test]
+async fn test_more_log_first() {
     use crate::*;
     use std::thread;
     use std::time::Duration;
@@ -52,37 +55,39 @@ fn test_more_log_first() {
     log.async_error("async error data => ", |error| {
         let write_data: String = format!("User error func =>  {:?}\n", error);
         write_data
-    });
+    })
+    .await;
     log.async_info("async info data => ", |info| {
         let write_data: String = format!("User info func =>  {:?}\n", info);
         write_data
-    });
+    })
+    .await;
     log.async_debug("async debug data => ", |debug| {
         let write_data: String = format!("User debug func =>  {:#?}\n", debug);
         write_data
-    });
+    })
+    .await;
     thread::sleep(Duration::new(6, 0));
 }
 
-#[test]
-fn test_more_log_second() {
+#[tokio::test]
+async fn test_more_log_second() {
     use crate::*;
     use std::thread;
     use std::time::Duration;
     for _ in 0..10 {
-        recoverable_spawn::sync::recoverable_spawn(move || {
-            let log: Log = Log::new("./logs", 512_000);
-            loop {
-                log.error("error data!", |error| {
-                    let write_data: String = format!("User error func =>  {:?}\n", error);
-                    write_data
-                });
-                log.async_error("async error data!", |error| {
-                    let write_data: String = format!("User error func =>  {:?}\n", error);
-                    write_data
-                });
-            }
-        });
+        let log: Log = Log::new("./logs", 512_000);
+        loop {
+            log.error("error data!", |error| {
+                let write_data: String = format!("User error func =>  {:?}\n", error);
+                write_data
+            });
+            log.async_error("async error data!", |error| {
+                let write_data: String = format!("User error func =>  {:?}\n", error);
+                write_data
+            })
+            .await;
+        }
     }
     thread::sleep(Duration::new(6, 0));
 }

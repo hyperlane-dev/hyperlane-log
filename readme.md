@@ -55,15 +55,15 @@ let log: Log = Log::new("./logs", 1_024_000);
 log.async_error("async error data!", |error| {
     let write_data: String = format!("User error func =>  {:?}\n", error);
     write_data
-});
+}).await;
 log.async_info("async info data!", |info| {
     let write_data: String = format!("User info func =>  {:?}\n", info);
     write_data
-});
+}).await;
 log.async_debug("async debug data!", |debug| {
     let write_data: String = format!("User debug func =>  {:#?}\n", debug);
     write_data
-});
+}).await;
 ```
 
 ## Disable log

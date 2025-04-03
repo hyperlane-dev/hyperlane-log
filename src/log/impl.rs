@@ -25,7 +25,7 @@ impl Log {
         !self.is_enable()
     }
 
-    fn write_data<L>(&self, data: &str, func: L, path: String, is_sync: bool) -> &Self
+    fn write_sync<L>(&self, data: &str, func: L, dir: &str) -> &Self
     where
         L: LogFuncTrait,
     {
@@ -33,93 +33,63 @@ impl Log {
             return self;
         }
         let out: String = func(data);
-        if is_sync {
-            let _ = r#sync::run_function(move || {
-                let _ = append_to_file(&path, &out.as_bytes());
-            });
-        } else {
-            let _ = r#async::run_function(move || async move {
-                let _ = async_append_to_file(&path, &out.as_bytes()).await;
-            });
-        }
+        let path = get_log_path(dir, self.get_path(), self.get_limit_file_size());
+        let _ = append_to_file(&path, &out.as_bytes());
         self
     }
 
-    fn common_error<L>(&self, data: &str, func: L, is_sync: bool) -> &Self
+    async fn write_async<L>(&self, data: &str, func: L, dir: &str) -> &Self
     where
         L: LogFuncTrait,
     {
-        self.write_data(
-            data,
-            func,
-            get_log_path(ERROR_DIR, self.get_path(), self.get_limit_file_size()),
-            is_sync,
-        )
-    }
-
-    fn common_info<L>(&self, data: &str, func: L, is_sync: bool) -> &Self
-    where
-        L: LogFuncTrait,
-    {
-        self.write_data(
-            data,
-            func,
-            get_log_path(INFO_DIR, self.get_path(), self.get_limit_file_size()),
-            is_sync,
-        )
-    }
-
-    fn common_debug<L>(&self, data: &str, func: L, is_sync: bool) -> &Self
-    where
-        L: LogFuncTrait,
-    {
-        self.write_data(
-            data,
-            func,
-            get_log_path(DEBUG_DIR, self.get_path(), self.get_limit_file_size()),
-            is_sync,
-        )
+        if self.is_disable() {
+            return self;
+        }
+        let out: String = func(data);
+        let path = get_log_path(dir, self.get_path(), self.get_limit_file_size());
+        let _ = async_append_to_file(&path, &out.as_bytes()).await;
+        self
     }
 
     pub fn error<L>(&self, data: &str, func: L) -> &Self
     where
         L: LogFuncTrait,
     {
-        self.common_error(data, func, true)
+        self.write_sync(data, func, ERROR_DIR)
     }
 
-    pub fn async_error<L>(&self, data: &str, func: L) -> &Self
+    pub async fn async_error<L>(&self, data: &str, func: L) -> &Self
     where
         L: LogFuncTrait,
     {
-        self.common_error(data, func, false)
+        self.write_async(data, func, ERROR_DIR).await
     }
 
     pub fn info<L>(&self, data: &str, func: L) -> &Self
     where
         L: LogFuncTrait,
     {
-        self.common_info(data, func, true)
+        self.write_sync(data, func, INFO_DIR)
     }
 
-    pub fn async_info<L>(&self, data: &str, func: L) -> &Self
+    pub async fn async_info<L>(&self, data: &str, func: L) -> &Self
     where
         L: LogFuncTrait,
     {
-        self.common_info(data, func, false)
+        self.write_async(data, func, INFO_DIR).await
     }
 
     pub fn debug<L>(&self, data: &str, func: L) -> &Self
     where
         L: LogFuncTrait,
     {
-        self.common_debug(data, func, true)
+        self.write_sync(data, func, DEBUG_DIR)
     }
 
-    pub fn async_debug<L>(&self, data: &str, func: L) -> &Self
+    pub async fn async_debug<L>(&self, data: &str, func: L) -> &Self
     where
         L: LogFuncTrait,
     {
-        self.common_debug(data, func, false)
+        self.write_async(data, func, DEBUG_DIR).await
     }
 }
