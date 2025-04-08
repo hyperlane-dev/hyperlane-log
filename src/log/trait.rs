@@ -1,2 +1,7 @@
-pub trait LogFuncTrait: Fn(&str) -> String + Send + Sync + 'static {}
-impl<T> LogFuncTrait for T where T: Fn(&str) -> String + Send + Sync + 'static {}
+pub trait LogFuncTrait<T: ToString>: Fn(T) -> String + Send + Sync + 'static {}
+impl<F, T> LogFuncTrait<T> for F
+where
+    F: Fn(T) -> String + Send + Sync + 'static,
+    T: ToString,
+{
+}

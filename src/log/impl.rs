@@ -25,22 +25,24 @@ impl Log {
         !self.is_enable()
     }
 
-    fn write_sync<L>(&self, data: &str, func: L, dir: &str) -> &Self
+    fn write_sync<T, L>(&self, data: T, func: L, dir: &str) -> &Self
     where
-        L: LogFuncTrait,
+        T: ToString,
+        L: LogFuncTrait<T>,
     {
         if self.is_disable() {
             return self;
         }
         let out: String = func(data);
-        let path = get_log_path(dir, self.get_path(), self.get_limit_file_size());
+        let path: String = get_log_path(dir, self.get_path(), self.get_limit_file_size());
         let _ = append_to_file(&path, &out.as_bytes());
         self
     }
 
-    async fn write_async<L>(&self, data: &str, func: L, dir: &str) -> &Self
+    async fn write_async<T, L>(&self, data: T, func: L, dir: &str) -> &Self
     where
-        L: LogFuncTrait,
+        T: ToString,
+        L: LogFuncTrait<T>,
     {
         if self.is_disable() {
             return self;
@@ -51,44 +53,50 @@ impl Log {
         self
     }
 
-    pub fn error<L>(&self, data: &str, func: L) -> &Self
+    pub fn error<T, L>(&self, data: T, func: L) -> &Self
     where
-        L: LogFuncTrait,
+        T: ToString,
+        L: LogFuncTrait<T>,
     {
         self.write_sync(data, func, ERROR_DIR)
     }
 
-    pub async fn async_error<L>(&self, data: &str, func: L) -> &Self
+    pub async fn async_error<T, L>(&self, data: T, func: L) -> &Self
     where
-        L: LogFuncTrait,
+        T: ToString,
+        L: LogFuncTrait<T>,
     {
         self.write_async(data, func, ERROR_DIR).await
     }
 
-    pub fn info<L>(&self, data: &str, func: L) -> &Self
+    pub fn info<T, L>(&self, data: T, func: L) -> &Self
     where
-        L: LogFuncTrait,
+        T: ToString,
+        L: LogFuncTrait<T>,
     {
         self.write_sync(data, func, INFO_DIR)
     }
 
-    pub async fn async_info<L>(&self, data: &str, func: L) -> &Self
+    pub async fn async_info<T, L>(&self, data: T, func: L) -> &Self
     where
-        L: LogFuncTrait,
+        T: ToString,
+        L: LogFuncTrait<T>,
     {
         self.write_async(data, func, INFO_DIR).await
     }
 
-    pub fn debug<L>(&self, data: &str, func: L) -> &Self
+    pub fn debug<T, L>(&self, data: T, func: L) -> &Self
     where
-        L: LogFuncTrait,
+        T: ToString,
+        L: LogFuncTrait<T>,
     {
         self.write_sync(data, func, DEBUG_DIR)
     }
 
-    pub async fn async_debug<L>(&self, data: &str, func: L) -> &Self
+    pub async fn async_debug<T, L>(&self, data: T, func: L) -> &Self
     where
-        L: LogFuncTrait,
+        T: ToString,
+        L: LogFuncTrait<T>,
     {
         self.write_async(data, func, DEBUG_DIR).await
     }
