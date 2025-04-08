@@ -37,11 +37,23 @@ log.error("error data!", |error| {
     let write_data: String = format!("User error func =>  {:?}\n", error);
     write_data
 });
+log.error(String::from("error data!"), |error| {
+    let write_data: String = format!("User error func =>  {:?}\n", error);
+    write_data
+});
 log.info("info data!", |info| {
     let write_data: String = format!("User info func =>  {:?}\n", info);
     write_data
 });
+log.info(String::from("info data!"), |info| {
+    let write_data: String = format!("User info func =>  {:?}\n", info);
+    write_data
+});
 log.debug("debug data!", |debug| {
+    let write_data: String = format!("User debug func =>  {:#?}\n", debug);
+    write_data
+});
+log.debug(String::from("debug data!"), |debug| {
     let write_data: String = format!("User debug func =>  {:#?}\n", debug);
     write_data
 });
@@ -56,11 +68,23 @@ log.async_error("async error data!", |error| {
     let write_data: String = format!("User error func =>  {:?}\n", error);
     write_data
 }).await;
+log.async_error(String::from("async error data!"), |error| {
+    let write_data: String = format!("User error func =>  {:?}\n", error);
+    write_data
+}).await;
 log.async_info("async info data!", |info| {
     let write_data: String = format!("User info func =>  {:?}\n", info);
     write_data
 }).await;
+log.async_info(String::from("async info data!"), |info| {
+    let write_data: String = format!("User info func =>  {:?}\n", info);
+    write_data
+}).await;
 log.async_debug("async debug data!", |debug| {
+    let write_data: String = format!("User debug func =>  {:#?}\n", debug);
+    write_data
+}).await;
+log.async_debug(String::from("async debug data!"), |debug| {
     let write_data: String = format!("User debug func =>  {:#?}\n", debug);
     write_data
 }).await;

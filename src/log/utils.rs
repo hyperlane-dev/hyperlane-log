@@ -54,15 +54,15 @@ pub(crate) fn get_log_path(system_dir: &str, base_path: &str, limit_file_size: &
     combined_path_clone
 }
 
-pub fn common_log(data: &str) -> String {
+pub fn common_log<T: ToString>(data: T) -> String {
     let mut log_string: String = String::new();
-    for line in data.lines() {
+    for line in data.to_string().lines() {
         let line_string: String = format!("{}: {}{}", current_time(), line, BR);
         log_string.push_str(&line_string);
     }
     log_string
 }
 
-pub fn log_handler(log_data: &str) -> String {
+pub fn log_handler<T: ToString>(log_data: T) -> String {
     common_log(log_data)
 }
