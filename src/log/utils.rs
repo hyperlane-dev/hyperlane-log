@@ -20,7 +20,7 @@ pub(crate) fn get_file_name(idx: usize) -> String {
     format!(
         "{}{}{}{}{}{}",
         ROOT_PATH,
-        current_date(),
+        date(),
         POINT,
         idx,
         POINT,
@@ -29,7 +29,7 @@ pub(crate) fn get_file_name(idx: usize) -> String {
 }
 
 pub(crate) fn get_file_dir_name() -> String {
-    format!("{}{}", ROOT_PATH, current_date())
+    format!("{}{}", ROOT_PATH, date())
 }
 
 pub(crate) fn get_log_path(system_dir: &str, base_path: &str, limit_file_size: &usize) -> String {
@@ -57,7 +57,7 @@ pub(crate) fn get_log_path(system_dir: &str, base_path: &str, limit_file_size: &
 pub fn common_log<T: ToString>(data: T) -> String {
     let mut log_string: String = String::new();
     for line in data.to_string().lines() {
-        let line_string: String = format!("{}: {}{}", current_time(), line, BR);
+        let line_string: String = format!("{}: {}{}", time(), line, BR);
         log_string.push_str(&line_string);
     }
     log_string

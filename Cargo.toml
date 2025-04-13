@@ -1,6 +1,6 @@
 [package]
 name = "hyperlane-log"
-version = "1.14.2"
+version = "1.15.0"
 edition = "2024"
 authors = ["ltpp-universe <root@ltpp.vip>"] 
 license = "MIT"
@@ -19,7 +19,7 @@ exclude = [
 
 [dependencies]
 file-operation = "0.5.5"
-hyperlane-time = "0.2.1"
+hyperlane-time = "0.4.0"
 lombok-macros = "1.9.6"
 tokio = { version = "1.44.2", features = ["full"] }
 
