@@ -1,0 +1,11 @@
+pub const DEFAULT_LOG_DIR: &str = "./logs";
+pub const ERROR_DIR: &str = "error";
+pub const INFO_DIR: &str = "info";
+pub const DEBUG_DIR: &str = "debug";
+pub const LOG_EXTENSION: &str = "log";
+pub const DEFAULT_LOG_FILE_START_IDX: usize = 1;
+pub const DEFAULT_LOG_FILE_SIZE: usize = 1_024_000_000;
+pub const DISABLE_LOG_FILE_SIZE: usize = 0;
+pub(crate) const ROOT_PATH: &str = "/";
+pub(crate) const POINT: &str = ".";
+pub(crate) const BR: &str = "\n";
