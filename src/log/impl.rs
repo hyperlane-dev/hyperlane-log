@@ -1,5 +1,12 @@
 use crate::*;
 
+impl<F, T> LogFuncTrait<T> for F
+where
+    F: Fn(T) -> String + Send + Sync,
+    T: ToString,
+{
+}
+
 impl Default for Log {
     fn default() -> Self {
         Self {
