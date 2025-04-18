@@ -6,9 +6,3 @@ pub type LogArcLock = Arc<RwLock<Log>>;
 pub type LogFunc<T> = dyn LogFuncTrait<T>;
 pub type ArcLogFunc<T> = Arc<LogFunc<T>>;
 pub type ArcLog = Arc<Log>;
-
-#[derive(Clone, Lombok)]
-pub struct Log {
-    pub(super) path: String,
-    pub(super) limit_file_size: usize,
-}
