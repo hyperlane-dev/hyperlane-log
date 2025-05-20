@@ -1,12 +1,12 @@
 [package]
 name = "hyperlane-log"
-version = "1.16.2"
+version = "1.16.4"
 edition = "2024"
-authors = ["ltpp-universe <root@ltpp.vip>"] 
+authors = ["eastspire <root@ltpp.vip>"] 
 license = "MIT"
 description = """A Rust logging library that supports both asynchronous and synchronous logging. It provides multiple log levels, such as error, info, and debug. Users can define custom log handling methods and configure log file paths. The library supports log rotation, automatically creating a new log file when the current file reaches the specified size limit. It allows flexible logging configurations, making it suitable for both high-performance asynchronous applications and traditional synchronous logging scenarios. The asynchronous mode utilizes Tokio's async channels for efficient log buffering, while the synchronous mode writes logs directly to the file system."""
 keywords = ["http", "request", "response", "tcp", "redirect"]
-repository = "https://github.com/ltpp-universe/hyperlane-log.git"
+repository = "https://github.com/eastspire/hyperlane-log.git"
 categories = ["network-programming", "web-programming","development-tools"]
 exclude = [
     "target",
@@ -18,9 +18,9 @@ exclude = [
 ]
 
 [dependencies]
-file-operation = "0.5.9"
-hyperlane-time = "0.5.1"
-lombok-macros = "1.11.0"
+file-operation = "0.5.10"
+hyperlane-time = "0.5.2"
+lombok-macros = "1.11.1"
 tokio = { version = "1.45.0", features = ["full"] }
 
 [profile.dev]
