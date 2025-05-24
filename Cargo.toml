@@ -1,6 +1,6 @@
 [package]
 name = "hyperlane-log"
-version = "1.16.6"
+version = "1.16.7"
 edition = "2024"
 authors = ["root@ltpp.vip"] 
 license = "MIT"
