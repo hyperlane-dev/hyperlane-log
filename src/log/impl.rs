@@ -25,7 +25,7 @@ impl Log {
     }
 
     pub fn is_enable(&self) -> bool {
-        self.get_limit_file_size() != &DISABLE_LOG_FILE_SIZE
+        self.limit_file_size != DISABLE_LOG_FILE_SIZE
     }
 
     pub fn is_disable(&self) -> bool {
@@ -41,7 +41,7 @@ impl Log {
             return self;
         }
         let out: String = func(data);
-        let path: String = get_log_path(dir, self.get_path(), self.get_limit_file_size());
+        let path: String = get_log_path(dir, &self.path, &self.limit_file_size);
         let _ = append_to_file(&path, &out.as_bytes());
         self
     }
@@ -55,7 +55,7 @@ impl Log {
             return self;
         }
         let out: String = func(data);
-        let path: String = get_log_path(dir, self.get_path(), self.get_limit_file_size());
+        let path: String = get_log_path(dir, &self.path, &self.limit_file_size);
         let _ = async_append_to_file(&path, &out.as_bytes()).await;
         self
     }
