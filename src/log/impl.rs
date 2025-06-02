@@ -17,9 +17,9 @@ impl Default for Log {
 }
 
 impl Log {
-    pub fn new(path: &str, limit_file_size: usize) -> Self {
+    pub fn new<P: ToString>(path: P, limit_file_size: usize) -> Self {
         Self {
-            path: path.into(),
+            path: path.to_string(),
             limit_file_size,
         }
     }
