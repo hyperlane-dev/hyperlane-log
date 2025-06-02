@@ -24,12 +24,12 @@ impl Log {
         }
     }
 
-    pub fn path(&mut self, path: String) -> &Self {
+    pub fn path(&mut self, path: String) -> &mut Self {
         self.path = path;
         self
     }
 
-    pub fn limit_file_size(&mut self, limit_file_size: usize) -> &Self {
+    pub fn limit_file_size(&mut self, limit_file_size: usize) -> &mut Self {
         self.limit_file_size = limit_file_size;
         self
     }
