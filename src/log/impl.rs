@@ -24,8 +24,8 @@ impl Log {
         }
     }
 
-    pub fn path(&mut self, path: String) -> &mut Self {
-        self.path = path;
+    pub fn path<P: ToString>(&mut self, path: P) -> &mut Self {
+        self.path = path.to_string();
         self
     }
 
