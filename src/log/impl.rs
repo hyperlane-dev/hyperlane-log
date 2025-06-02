@@ -24,6 +24,16 @@ impl Log {
         }
     }
 
+    pub fn path(&mut self, path: String) -> &Self {
+        self.path = path;
+        self
+    }
+
+    pub fn limit_file_size(&mut self, limit_file_size: usize) -> &Self {
+        self.limit_file_size = limit_file_size;
+        self
+    }
+
     pub fn is_enable(&self) -> bool {
         self.limit_file_size != DISABLE_LOG_FILE_SIZE
     }
