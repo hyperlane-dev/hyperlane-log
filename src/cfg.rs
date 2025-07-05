@@ -1,3 +1,4 @@
+#[cfg(test)]
 #[tokio::test]
 async fn test() {
     use crate::*;
@@ -37,6 +38,7 @@ async fn test() {
     .await;
 }
 
+#[cfg(test)]
 #[tokio::test]
 async fn test_more_log_first() {
     use crate::*;
@@ -70,6 +72,7 @@ async fn test_more_log_first() {
     .await;
 }
 
+#[cfg(test)]
 #[tokio::test]
 async fn test_more_log_second() {
     use crate::*;
