@@ -1,6 +1,6 @@
 [package]
 name = "hyperlane-log"
-version = "1.17.5"
+version = "1.17.6"
 edition = "2024"
 authors = ["root@ltpp.vip"]
 license = "MIT"
@@ -18,7 +18,7 @@ exclude = [
 ]
 
 [dependencies]
-file-operation = "0.5.14"
+file-operation = "0.5.16"
 hyperlane-time = "0.5.6"
 
 [dev-dependencies]
