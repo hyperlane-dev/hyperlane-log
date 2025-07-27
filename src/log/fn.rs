@@ -1,5 +1,14 @@
 use crate::*;
 
+/// Gets the maximum index number from log filenames in a directory.
+///
+/// # Arguments
+///
+/// - `&str` - Directory path to scan for log files.
+///
+/// # Returns
+///
+/// - `usize` - The highest index number found in filenames.
 pub(crate) fn get_second_element_from_filename(dir_path: &str) -> usize {
     let mut res_idx: usize = DEFAULT_LOG_FILE_START_IDX;
     if let Ok(entries) = read_dir(dir_path) {
@@ -16,6 +25,15 @@ pub(crate) fn get_second_element_from_filename(dir_path: &str) -> usize {
     res_idx.max(DEFAULT_LOG_FILE_START_IDX)
 }
 
+/// Generates a log filename with given index.
+///
+/// # Arguments
+///
+/// - `usize` - Index number for the log file.
+///
+/// # Returns
+///
+/// - `String` - Formatted log filename.
 pub(crate) fn get_file_name(idx: usize) -> String {
     format!(
         "{}{}{}{}{}{}",
@@ -28,10 +46,26 @@ pub(crate) fn get_file_name(idx: usize) -> String {
     )
 }
 
+/// Generates directory name for current date's logs.
+///
+/// # Returns
+///
+/// - `String` - Directory name based on current date.
 pub(crate) fn get_file_dir_name() -> String {
     format!("{}{}", ROOT_PATH, date())
 }
 
+/// Constructs appropriate log file path considering size limits.
+///
+/// # Arguments
+///
+/// - `&str` - System directory path.
+/// - `&str` - Base path for logs.
+/// - `&usize` - Maximum allowed file size in bytes.
+///
+/// # Returns
+///
+/// - `String` - Full path to appropriate log file.
 pub(crate) fn get_log_path(system_dir: &str, base_path: &str, limit_file_size: &usize) -> String {
     let mut combined_path: String = base_path.trim_end_matches(ROOT_PATH).to_string();
     if !system_dir.starts_with(ROOT_PATH) {
@@ -54,6 +88,15 @@ pub(crate) fn get_log_path(system_dir: &str, base_path: &str, limit_file_size: &
     combined_path_clone
 }
 
+/// Formats log data with timestamp for each line.
+///
+/// # Arguments
+///
+/// - `T: ToString` - Data to be logged.
+///
+/// # Returns
+///
+/// - `String` - Formatted log string with timestamps.
 pub fn common_log<T: ToString>(data: T) -> String {
     let mut log_string: String = String::new();
     for line in data.to_string().lines() {
@@ -63,6 +106,15 @@ pub fn common_log<T: ToString>(data: T) -> String {
     log_string
 }
 
+/// Handles log data formatting.
+///
+/// # Arguments
+///
+/// - `T: ToString` - Data to be logged.
+///
+/// # Returns
+///
+/// - `String` - Formatted log string.
 pub fn log_handler<T: ToString>(log_data: T) -> String {
     common_log(log_data)
 }
