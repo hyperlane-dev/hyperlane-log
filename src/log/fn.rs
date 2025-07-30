@@ -1,14 +1,14 @@
 use crate::*;
 
-/// Gets the maximum index number from log filenames in a directory.
+/// Extracts the second element (index number) from log filenames in a directory.
 ///
 /// # Arguments
 ///
-/// - `&str` - Directory path to scan for log files.
+/// - `&str` - The directory path to scan for log files.
 ///
 /// # Returns
 ///
-/// - `usize` - The highest index number found in filenames.
+/// - `usize` - The extracted index number or default start index.
 pub(crate) fn get_second_element_from_filename(dir_path: &str) -> usize {
     let mut res_idx: usize = DEFAULT_LOG_FILE_START_IDX;
     if let Ok(entries) = read_dir(dir_path) {
@@ -25,15 +25,15 @@ pub(crate) fn get_second_element_from_filename(dir_path: &str) -> usize {
     res_idx.max(DEFAULT_LOG_FILE_START_IDX)
 }
 
-/// Generates a log filename with given index.
+/// Generates a log filename with given index using current date.
 ///
 /// # Arguments
 ///
-/// - `usize` - Index number for the log file.
+/// - `usize` - The index number for the log file.
 ///
 /// # Returns
 ///
-/// - `String` - Formatted log filename.
+/// - `String` - The formatted log filename with path.
 pub(crate) fn get_file_name(idx: usize) -> String {
     format!(
         "{}{}{}{}{}{}",
@@ -50,7 +50,7 @@ pub(crate) fn get_file_name(idx: usize) -> String {
 ///
 /// # Returns
 ///
-/// - `String` - Directory name based on current date.
+/// - `String` - The directory name based on current date.
 pub(crate) fn get_file_dir_name() -> String {
     format!("{}{}", ROOT_PATH, date())
 }
@@ -59,13 +59,13 @@ pub(crate) fn get_file_dir_name() -> String {
 ///
 /// # Arguments
 ///
-/// - `&str` - System directory path.
-/// - `&str` - Base path for logs.
-/// - `&usize` - Maximum allowed file size in bytes.
+/// - `&str` - The system directory path.
+/// - `&str` - The base path for logs.
+/// - `&usize` - The maximum allowed file size in bytes.
 ///
 /// # Returns
 ///
-/// - `String` - Full path to appropriate log file.
+/// - `String` - The full path to appropriate log file.
 pub(crate) fn get_log_path(system_dir: &str, base_path: &str, limit_file_size: &usize) -> String {
     let mut combined_path: String = base_path.trim_end_matches(ROOT_PATH).to_string();
     if !system_dir.starts_with(ROOT_PATH) {
@@ -92,11 +92,11 @@ pub(crate) fn get_log_path(system_dir: &str, base_path: &str, limit_file_size: &
 ///
 /// # Arguments
 ///
-/// - `T: ToString` - Data to be logged.
+/// - `T: ToString` - The data to be logged.
 ///
 /// # Returns
 ///
-/// - `String` - Formatted log string with timestamps.
+/// - `String` - The formatted log string with timestamps.
 pub fn common_log<T: ToString>(data: T) -> String {
     let mut log_string: String = String::new();
     for line in data.to_string().lines() {
@@ -106,15 +106,15 @@ pub fn common_log<T: ToString>(data: T) -> String {
     log_string
 }
 
-/// Handles log data formatting.
+/// Handles log data formatting by delegating to common_log.
 ///
 /// # Arguments
 ///
-/// - `T: ToString` - Data to be logged.
+/// - `T: ToString` - The data to be logged.
 ///
 /// # Returns
 ///
-/// - `String` - Formatted log string.
+/// - `String` - The formatted log string.
 pub fn log_handler<T: ToString>(log_data: T) -> String {
     common_log(log_data)
 }

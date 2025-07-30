@@ -1,6 +1,8 @@
 use crate::*;
 
 /// Blanket implementation for any function matching LogFuncTrait signature.
+///
+/// This allows any compatible closure or function to be used as a log formatter.
 impl<F, T> LogFuncTrait<T> for F
 where
     F: Fn(T) -> String + Send + Sync,
@@ -28,12 +30,12 @@ impl Log {
     ///
     /// # Arguments
     ///
-    /// - `P: ToString` - Path for log files.
-    /// - `usize` - Maximum file size limit in bytes.
+    /// - `P: ToString` - The path for storing log files.
+    /// - `usize` - The maximum file size limit in bytes.
     ///
     /// # Returns
     ///
-    /// - `Self` - New Log instance.
+    /// - `Self` - A new Log instance with specified configuration.
     pub fn new<P: ToString>(path: P, limit_file_size: usize) -> Self {
         Self {
             path: path.to_string(),
@@ -41,11 +43,11 @@ impl Log {
         }
     }
 
-    /// Sets the log file path.
+    /// Sets the log file storage path.
     ///
     /// # Arguments
     ///
-    /// - `P: ToString` - New path for log files.
+    /// - `P: ToString` - The new path for storing log files.
     ///
     /// # Returns
     ///
@@ -55,11 +57,11 @@ impl Log {
         self
     }
 
-    /// Sets the maximum log file size.
+    /// Sets the maximum size limit for log files.
     ///
     /// # Arguments
     ///
-    /// - `usize` - New maximum file size limit in bytes.
+    /// - `usize` - The new maximum file size limit in bytes.
     ///
     /// # Returns
     ///
@@ -87,17 +89,17 @@ impl Log {
         !self.is_enable()
     }
 
-    /// Writes log data synchronously.
+    /// Writes log data synchronously to specified directory.
     ///
     /// # Arguments
     ///
-    /// - `T: ToString` - Data to be logged.
-    /// - `L: LogFuncTrait<T>` - Log formatting function.
-    /// - `&str` - Directory for log file.
+    /// - `T: ToString` - The data to be logged.
+    /// - `L: LogFuncTrait<T>` - The log formatting function.
+    /// - `&str` - The subdirectory for log file.
     ///
     /// # Returns
     ///
-    /// - `&Self` - Reference to self.
+    /// - `&Self` - Reference to self for method chaining.
     fn write_sync<T, L>(&self, data: T, func: L, dir: &str) -> &Self
     where
         T: ToString,
@@ -112,17 +114,17 @@ impl Log {
         self
     }
 
-    /// Writes log data asynchronously.
+    /// Writes log data asynchronously to specified directory.
     ///
     /// # Arguments
     ///
-    /// - `T: ToString` - Data to be logged.
-    /// - `L: LogFuncTrait<T>` - Log formatting function.
-    /// - `&str` - Directory for log file.
+    /// - `T: ToString` - The data to be logged.
+    /// - `L: LogFuncTrait<T>` - The log formatting function.
+    /// - `&str` - The subdirectory for log file.
     ///
     /// # Returns
     ///
-    /// - `&Self` - Reference to self.
+    /// - `&Self` - Reference to self for method chaining.
     async fn write_async<T, L>(&self, data: T, func: L, dir: &str) -> &Self
     where
         T: ToString,

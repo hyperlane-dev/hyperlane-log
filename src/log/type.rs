@@ -1,14 +1,14 @@
 use crate::*;
 
-/// A list of named log functions.
+/// A collection of named log formatting functions.
 pub type ListLog<T> = Vec<(String, ArcLogFunc<T>)>;
-/// Thread-safe shared reference to a list of log functions.
+/// Thread-safe shared reference to a collection of log functions.
 pub type LogListArcLock<T> = Arc<RwLock<ListLog<T>>>;
-/// Thread-safe shared reference to a log instance.
+/// Thread-safe shared reference to a Log configuration instance.
 pub type LogArcLock = Arc<RwLock<Log>>;
-/// Trait object for log functions.
+/// Trait object representing a log formatting function.
 pub type LogFunc<T> = dyn LogFuncTrait<T>;
-/// Shared reference to a log function trait object.
+/// Thread-safe shared reference to a log formatting function.
 pub type ArcLogFunc<T> = Arc<LogFunc<T>>;
-/// Shared reference to a log instance.
+/// Thread-safe shared reference to a Log configuration.
 pub type ArcLog = Arc<Log>;
