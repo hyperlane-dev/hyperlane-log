@@ -6,7 +6,7 @@ use crate::*;
 impl<F, T> LogFuncTrait<T> for F
 where
     F: Fn(T) -> String + Send + Sync,
-    T: ToString,
+    T: AsRef<str>,
 {
 }
 
@@ -30,15 +30,15 @@ impl Log {
     ///
     /// # Arguments
     ///
-    /// - `P: ToString` - The path for storing log files.
+    /// - `P: AsRef<str>` - The path for storing log files, which will be converted to string slice.
     /// - `usize` - The maximum file size limit in bytes.
     ///
     /// # Returns
     ///
     /// - `Self` - A new Log instance with specified configuration.
-    pub fn new<P: ToString>(path: P, limit_file_size: usize) -> Self {
+    pub fn new<P: AsRef<str>>(path: P, limit_file_size: usize) -> Self {
         Self {
-            path: path.to_string(),
+            path: path.as_ref().to_owned(),
             limit_file_size,
         }
     }
@@ -47,13 +47,13 @@ impl Log {
     ///
     /// # Arguments
     ///
-    /// - `P: ToString` - The new path for storing log files.
+    /// - `P: AsRef<str>` - The new path for storing log files, which will be converted to string slice.
     ///
     /// # Returns
     ///
     /// - `&mut Self` - Mutable reference to self for method chaining.
-    pub fn path<P: ToString>(&mut self, path: P) -> &mut Self {
-        self.path = path.to_string();
+    pub fn path<P: AsRef<str>>(&mut self, path: P) -> &mut Self {
+        self.path = path.as_ref().to_owned();
         self
     }
 
@@ -93,7 +93,7 @@ impl Log {
     ///
     /// # Arguments
     ///
-    /// - `T: ToString` - The data to be logged.
+    /// - `AsRef<str>` - The data to be logged, which will be converted to string slice.
     /// - `L: LogFuncTrait<T>` - The log formatting function.
     /// - `&str` - The subdirectory for log file.
     ///
@@ -102,7 +102,7 @@ impl Log {
     /// - `&Self` - Reference to self for method chaining.
     fn write_sync<T, L>(&self, data: T, func: L, dir: &str) -> &Self
     where
-        T: ToString,
+        T: AsRef<str>,
         L: LogFuncTrait<T>,
     {
         if self.is_disable() {
@@ -118,7 +118,7 @@ impl Log {
     ///
     /// # Arguments
     ///
-    /// - `T: ToString` - The data to be logged.
+    /// - `AsRef<str>` - The data to be logged, which will be converted to string slice.
     /// - `L: LogFuncTrait<T>` - The log formatting function.
     /// - `&str` - The subdirectory for log file.
     ///
@@ -127,7 +127,7 @@ impl Log {
     /// - `&Self` - Reference to self for method chaining.
     async fn write_async<T, L>(&self, data: T, func: L, dir: &str) -> &Self
     where
-        T: ToString,
+        T: AsRef<str>,
         L: LogFuncTrait<T>,
     {
         if self.is_disable() {
@@ -143,7 +143,7 @@ impl Log {
     ///
     /// # Arguments
     ///
-    /// - `T: ToString` - Error data to be logged.
+    /// - `AsRef<str>` - Error data to be logged, which will be converted to string slice.
     /// - `L: LogFuncTrait<T>` - Log formatting function.
     ///
     /// # Returns
@@ -151,7 +151,7 @@ impl Log {
     /// - `&Self` - Reference to self.
     pub fn error<T, L>(&self, data: T, func: L) -> &Self
     where
-        T: ToString,
+        T: AsRef<str>,
         L: LogFuncTrait<T>,
     {
         self.write_sync(data, func, ERROR_DIR)
@@ -161,7 +161,7 @@ impl Log {
     ///
     /// # Arguments
     ///
-    /// - `T: ToString` - Error data to be logged.
+    /// - `AsRef<str>` - Error data to be logged, which will be converted to string slice.
     /// - `L: LogFuncTrait<T>` - Log formatting function.
     ///
     /// # Returns
@@ -169,7 +169,7 @@ impl Log {
     /// - `&Self` - Reference to self.
     pub async fn async_error<T, L>(&self, data: T, func: L) -> &Self
     where
-        T: ToString,
+        T: AsRef<str>,
         L: LogFuncTrait<T>,
     {
         self.write_async(data, func, ERROR_DIR).await
@@ -179,7 +179,7 @@ impl Log {
     ///
     /// # Arguments
     ///
-    /// - `T: ToString` - Info data to be logged.
+    /// - `AsRef<str>` - Info data to be logged, which will be converted to string slice.
     /// - `L: LogFuncTrait<T>` - Log formatting function.
     ///
     /// # Returns
@@ -187,7 +187,7 @@ impl Log {
     /// - `&Self` - Reference to self.
     pub fn info<T, L>(&self, data: T, func: L) -> &Self
     where
-        T: ToString,
+        T: AsRef<str>,
         L: LogFuncTrait<T>,
     {
         self.write_sync(data, func, INFO_DIR)
@@ -197,7 +197,7 @@ impl Log {
     ///
     /// # Arguments
     ///
-    /// - `T: ToString` - Info data to be logged.
+    /// - `AsRef<str>` - Info data to be logged, which will be converted to string slice.
     /// - `L: LogFuncTrait<T>` - Log formatting function.
     ///
     /// # Returns
@@ -205,7 +205,7 @@ impl Log {
     /// - `&Self` - Reference to self.
     pub async fn async_info<T, L>(&self, data: T, func: L) -> &Self
     where
-        T: ToString,
+        T: AsRef<str>,
         L: LogFuncTrait<T>,
     {
         self.write_async(data, func, INFO_DIR).await
@@ -215,7 +215,7 @@ impl Log {
     ///
     /// # Arguments
     ///
-    /// - `T: ToString` - Debug data to be logged.
+    /// - `AsRef<str>` - Debug data to be logged, which will be converted to string slice.
     /// - `L: LogFuncTrait<T>` - Log formatting function.
     ///
     /// # Returns
@@ -223,7 +223,7 @@ impl Log {
     /// - `&Self` - Reference to self.
     pub fn debug<T, L>(&self, data: T, func: L) -> &Self
     where
-        T: ToString,
+        T: AsRef<str>,
         L: LogFuncTrait<T>,
     {
         self.write_sync(data, func, DEBUG_DIR)
@@ -233,7 +233,7 @@ impl Log {
     ///
     /// # Arguments
     ///
-    /// - `T: ToString` - Debug data to be logged.
+    /// - `AsRef<str>` - Debug data to be logged, which will be converted to string slice.
     /// - `L: LogFuncTrait<T>` - Log formatting function.
     ///
     /// # Returns
@@ -241,7 +241,7 @@ impl Log {
     /// - `&Self` - Reference to self.
     pub async fn async_debug<T, L>(&self, data: T, func: L) -> &Self
     where
-        T: ToString,
+        T: AsRef<str>,
         L: LogFuncTrait<T>,
     {
         self.write_async(data, func, DEBUG_DIR).await

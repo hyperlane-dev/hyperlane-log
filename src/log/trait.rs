@@ -5,5 +5,5 @@
 ///
 /// # Generic Parameters
 ///
-/// - `T: ToString` - The type of data to be formatted, must be convertible to String.
-pub trait LogFuncTrait<T: ToString>: Fn(T) -> String + Send + Sync {}
+/// - `AsRef<str>` - The type of data to be formatted, which will be converted to string slice.
+pub trait LogFuncTrait<T: AsRef<str>>: Fn(T) -> String + Send + Sync {}

@@ -92,14 +92,14 @@ pub(crate) fn get_log_path(system_dir: &str, base_path: &str, limit_file_size: &
 ///
 /// # Arguments
 ///
-/// - `T: ToString` - The data to be logged.
+/// - `AsRef<str>` - The data to be logged, which will be converted to string slice.
 ///
 /// # Returns
 ///
 /// - `String` - The formatted log string with timestamps.
-pub fn common_log<T: ToString>(data: T) -> String {
+pub fn common_log<T: AsRef<str>>(data: T) -> String {
     let mut log_string: String = String::new();
-    for line in data.to_string().lines() {
+    for line in data.as_ref().lines() {
         let line_string: String = format!("{}: {}{}", time(), line, BR);
         log_string.push_str(&line_string);
     }
@@ -110,11 +110,11 @@ pub fn common_log<T: ToString>(data: T) -> String {
 ///
 /// # Arguments
 ///
-/// - `T: ToString` - The data to be logged.
+/// - `AsRef<str>` - The data to be logged, which will be converted to string slice.
 ///
 /// # Returns
 ///
 /// - `String` - The formatted log string.
-pub fn log_handler<T: ToString>(log_data: T) -> String {
+pub fn log_handler<T: AsRef<str>>(log_data: T) -> String {
     common_log(log_data)
 }
