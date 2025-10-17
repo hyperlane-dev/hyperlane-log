@@ -36,6 +36,7 @@ impl Log {
     /// # Returns
     ///
     /// - `Self` - A new Log instance with specified configuration.
+    #[inline]
     pub fn new<P: AsRef<str>>(path: P, limit_file_size: usize) -> Self {
         Self {
             path: path.as_ref().to_owned(),
@@ -66,6 +67,7 @@ impl Log {
     /// # Returns
     ///
     /// - `&mut Self` - Mutable reference to self for method chaining.
+    #[inline]
     pub fn limit_file_size(&mut self, limit_file_size: usize) -> &mut Self {
         self.limit_file_size = limit_file_size;
         self
@@ -76,6 +78,7 @@ impl Log {
     /// # Returns
     ///
     /// - `bool` - True if logging is enabled.
+    #[inline]
     pub fn is_enable(&self) -> bool {
         self.limit_file_size != DISABLE_LOG_FILE_SIZE
     }
@@ -85,6 +88,7 @@ impl Log {
     /// # Returns
     ///
     /// - `bool` - True if logging is disabled.
+    #[inline]
     pub fn is_disable(&self) -> bool {
         !self.is_enable()
     }
