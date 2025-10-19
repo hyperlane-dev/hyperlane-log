@@ -1,6 +1,6 @@
 [package]
 name = "hyperlane-log"
-version = "1.19.1"
+version = "1.19.2"
 readme = "README.md"
 edition = "2024"
 authors = ["root@ltpp.vip"]
@@ -19,8 +19,8 @@ exclude = [
 ]
 
 [dependencies]
-file-operation = "0.8.4"
-hyperlane-time = "0.7.9"
+file-operation = "0.8.6"
+hyperlane-time = "0.7.10"
 
 [dev-dependencies]
 tokio = { version = "1.48.0", features = ["full"] }

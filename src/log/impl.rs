@@ -114,7 +114,7 @@ impl Log {
         }
         let out: String = func(data);
         let path: String = get_log_path(dir, &self.path, &self.limit_file_size);
-        let _ = append_to_file(&path, &out.as_bytes());
+        let _ = append_to_file(&path, out.as_bytes());
         self
     }
 
@@ -139,7 +139,7 @@ impl Log {
         }
         let out: String = func(data);
         let path: String = get_log_path(dir, &self.path, &self.limit_file_size);
-        let _ = async_append_to_file(&path, &out.as_bytes()).await;
+        let _ = async_append_to_file(&path, out.as_bytes()).await;
         self
     }
 

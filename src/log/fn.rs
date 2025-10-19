@@ -15,10 +15,10 @@ pub(crate) fn get_second_element_from_filename(dir_path: &str) -> usize {
         for entry in entries.filter_map(Result::ok) {
             let file_name: String = entry.file_name().to_string_lossy().to_string();
             let parts: Vec<&str> = file_name.split(POINT).collect();
-            if parts.len() > 1 {
-                if let Ok(second_element) = parts[1].parse::<usize>() {
-                    res_idx = second_element.max(res_idx);
-                }
+            if parts.len() > 1
+                && let Ok(second_element) = parts[1].parse::<usize>()
+            {
+                res_idx = second_element.max(res_idx);
             }
         }
     }
