@@ -34,7 +34,7 @@ pub(crate) fn get_second_element_from_filename(dir_path: &str) -> usize {
 /// # Returns
 ///
 /// - `String` - The formatted log filename with path.
-#[inline]
+#[inline(always)]
 pub(crate) fn get_file_name(idx: usize) -> String {
     format!(
         "{}{}{}{}{}{}",
@@ -52,7 +52,7 @@ pub(crate) fn get_file_name(idx: usize) -> String {
 /// # Returns
 ///
 /// - `String` - The directory name based on current date.
-#[inline]
+#[inline(always)]
 pub(crate) fn get_file_dir_name() -> String {
     format!("{}{}", ROOT_PATH, date())
 }
@@ -99,7 +99,7 @@ pub(crate) fn get_log_path(system_dir: &str, base_path: &str, limit_file_size: &
 /// # Returns
 ///
 /// - `String` - The formatted log string with timestamps.
-#[inline]
+#[inline(always)]
 pub fn common_log<T: AsRef<str>>(data: T) -> String {
     let mut log_string: String = String::new();
     for line in data.as_ref().lines() {
@@ -118,7 +118,7 @@ pub fn common_log<T: AsRef<str>>(data: T) -> String {
 /// # Returns
 ///
 /// - `String` - The formatted log string.
-#[inline]
+#[inline(always)]
 pub fn log_handler<T: AsRef<str>>(log_data: T) -> String {
     common_log(log_data)
 }
