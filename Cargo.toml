@@ -1,6 +1,6 @@
 [package]
 name = "hyperlane-log"
-version = "1.19.4"
+version = "1.19.5"
 readme = "README.md"
 edition = "2024"
 authors = ["root@ltpp.vip"]
@@ -8,19 +8,12 @@ license = "MIT"
 description = """A Rust logging library that supports both asynchronous and synchronous logging. It provides multiple log levels, such as error, info, and debug. Users can define custom log handling methods and configure log file paths. The library supports log rotation, automatically creating a new log file when the current file reaches the specified size limit. It allows flexible logging configurations, making it suitable for both high-performance asynchronous applications and traditional synchronous logging scenarios. The asynchronous mode utilizes Tokio's async channels for efficient log buffering, while the synchronous mode writes logs directly to the file system."""
 keywords = ["http", "request", "response", "tcp", "redirect"]
 repository = "https://github.com/hyperlane-dev/hyperlane-log.git"
-categories = ["network-programming", "web-programming","development-tools"]
-exclude = [
-    "target",
-    "Cargo.lock",
-    "sh",
-    ".github",
-    "logs",
-    "**/*.log"
-]
+categories = ["network-programming", "web-programming", "development-tools"]
+exclude = ["target", "Cargo.lock", "sh", ".github", "logs", "**/*.log"]
 
 [dependencies]
-file-operation = "0.8.7"
-hyperlane-time = "0.7.13"
+file-operation = "0.8.8"
+hyperlane-time = "0.7.14"
 
 [dev-dependencies]
 tokio = { version = "1.48.0", features = ["full"] }
