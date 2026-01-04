@@ -1,6 +1,6 @@
 [package]
 name = "hyperlane-log"
-version = "1.19.8"
+version = "1.19.9"
 readme = "README.md"
 edition = "2024"
 authors = ["root@ltpp.vip"]
@@ -12,11 +12,11 @@ categories = ["network-programming", "web-programming", "development-tools"]
 exclude = ["target", "Cargo.lock", "sh", ".github", "logs", "**/*.log"]
 
 [dependencies]
-file-operation = "0.8.9"
+file-operation = "0.8.10"
 hyperlane-time = "0.7.16"
 
 [dev-dependencies]
-tokio = { version = "1.48.0", features = ["full"] }
+tokio = { version = "1.49.0", features = ["full"] }
 
 [profile.dev]
 incremental = false
