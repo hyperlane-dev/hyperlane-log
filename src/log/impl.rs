@@ -1,22 +1,22 @@
 use crate::*;
 
-/// Blanket implementation for any function matching ServerLogFuncTrait signature.
+/// Blanket implementation for any function matching FileLoggerFuncTrait signature.
 ///
 /// This allows any compatible closure or function to be used as a log formatter.
-impl<F, T> ServerLogFuncTrait<T> for F
+impl<F, T> FileLoggerFuncTrait<T> for F
 where
     F: Fn(T) -> String + Send + Sync,
     T: AsRef<str>,
 {
 }
 
-/// Default implementation for ServerLog configuration.
-impl Default for ServerLog {
-    /// Creates default ServerLog configuration.
+/// Default implementation for FileLogger configuration.
+impl Default for FileLogger {
+    /// Creates default FileLogger configuration.
     ///
     /// # Returns
     ///
-    /// - `Self` - Default ServerLog instance with default path and file size limit.
+    /// - `Self` - Default FileLogger instance with default path and file size limit.
     #[inline(always)]
     fn default() -> Self {
         Self {
@@ -26,8 +26,8 @@ impl Default for ServerLog {
     }
 }
 
-impl ServerLog {
-    /// Creates new ServerLog configuration with specified parameters.
+impl FileLogger {
+    /// Creates new FileLogger configuration with specified parameters.
     ///
     /// # Arguments
     ///
@@ -36,7 +36,7 @@ impl ServerLog {
     ///
     /// # Returns
     ///
-    /// - `Self` - A new ServerLog instance with specified configuration.
+    /// - `Self` - A new FileLogger instance with specified configuration.
     #[inline(always)]
     pub fn new<P: AsRef<str>>(path: P, limit_file_size: usize) -> Self {
         Self {
@@ -100,7 +100,7 @@ impl ServerLog {
     /// # Arguments
     ///
     /// - `AsRef<str>` - The data to be logged, which will be converted to string slice.
-    /// - `L: ServerLogFuncTrait<T>` - The log formatting function.
+    /// - `L: FileLoggerFuncTrait<T>` - The log formatting function.
     /// - `&str` - The subdirectory for log file.
     ///
     /// # Returns
@@ -109,7 +109,7 @@ impl ServerLog {
     fn write_sync<T, L>(&self, data: T, func: L, dir: &str) -> &Self
     where
         T: AsRef<str>,
-        L: ServerLogFuncTrait<T>,
+        L: FileLoggerFuncTrait<T>,
     {
         if self.is_disable() {
             return self;
@@ -125,7 +125,7 @@ impl ServerLog {
     /// # Arguments
     ///
     /// - `AsRef<str>` - The data to be logged, which will be converted to string slice.
-    /// - `L: ServerLogFuncTrait<T>` - The log formatting function.
+    /// - `L: FileLoggerFuncTrait<T>` - The log formatting function.
     /// - `&str` - The subdirectory for log file.
     ///
     /// # Returns
@@ -134,7 +134,7 @@ impl ServerLog {
     async fn write_async<T, L>(&self, data: T, func: L, dir: &str) -> &Self
     where
         T: AsRef<str>,
-        L: ServerLogFuncTrait<T>,
+        L: FileLoggerFuncTrait<T>,
     {
         if self.is_disable() {
             return self;
@@ -150,7 +150,7 @@ impl ServerLog {
     /// # Arguments
     ///
     /// - `AsRef<str>` - Trace data to be logged, which will be converted to string slice.
-    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    /// - `L: FileLoggerFuncTrait<T>` - FileLogger formatting function.
     ///
     /// # Returns
     ///
@@ -158,7 +158,7 @@ impl ServerLog {
     pub fn trace<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
-        L: ServerLogFuncTrait<T>,
+        L: FileLoggerFuncTrait<T>,
     {
         self.write_sync(data, func, TRACE_DIR)
     }
@@ -168,7 +168,7 @@ impl ServerLog {
     /// # Arguments
     ///
     /// - `AsRef<str>` - Trace data to be logged, which will be converted to string slice.
-    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    /// - `L: FileLoggerFuncTrait<T>` - FileLogger formatting function.
     ///
     /// # Returns
     ///
@@ -176,7 +176,7 @@ impl ServerLog {
     pub async fn async_trace<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
-        L: ServerLogFuncTrait<T>,
+        L: FileLoggerFuncTrait<T>,
     {
         self.write_async(data, func, TRACE_DIR).await
     }
@@ -186,7 +186,7 @@ impl ServerLog {
     /// # Arguments
     ///
     /// - `AsRef<str>` - Debug data to be logged, which will be converted to string slice.
-    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    /// - `L: FileLoggerFuncTrait<T>` - FileLogger formatting function.
     ///
     /// # Returns
     ///
@@ -194,7 +194,7 @@ impl ServerLog {
     pub fn debug<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
-        L: ServerLogFuncTrait<T>,
+        L: FileLoggerFuncTrait<T>,
     {
         self.write_sync(data, func, DEBUG_DIR)
     }
@@ -204,7 +204,7 @@ impl ServerLog {
     /// # Arguments
     ///
     /// - `AsRef<str>` - Debug data to be logged, which will be converted to string slice.
-    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    /// - `L: FileLoggerFuncTrait<T>` - FileLogger formatting function.
     ///
     /// # Returns
     ///
@@ -212,7 +212,7 @@ impl ServerLog {
     pub async fn async_debug<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
-        L: ServerLogFuncTrait<T>,
+        L: FileLoggerFuncTrait<T>,
     {
         self.write_async(data, func, DEBUG_DIR).await
     }
@@ -222,7 +222,7 @@ impl ServerLog {
     /// # Arguments
     ///
     /// - `AsRef<str>` - Info data to be logged, which will be converted to string slice.
-    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    /// - `L: FileLoggerFuncTrait<T>` - FileLogger formatting function.
     ///
     /// # Returns
     ///
@@ -230,7 +230,7 @@ impl ServerLog {
     pub fn info<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
-        L: ServerLogFuncTrait<T>,
+        L: FileLoggerFuncTrait<T>,
     {
         self.write_sync(data, func, INFO_DIR)
     }
@@ -240,7 +240,7 @@ impl ServerLog {
     /// # Arguments
     ///
     /// - `AsRef<str>` - Info data to be logged, which will be converted to string slice.
-    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    /// - `L: FileLoggerFuncTrait<T>` - FileLogger formatting function.
     ///
     /// # Returns
     ///
@@ -248,7 +248,7 @@ impl ServerLog {
     pub async fn async_info<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
-        L: ServerLogFuncTrait<T>,
+        L: FileLoggerFuncTrait<T>,
     {
         self.write_async(data, func, INFO_DIR).await
     }
@@ -258,7 +258,7 @@ impl ServerLog {
     /// # Arguments
     ///
     /// - `AsRef<str>` - Warn data to be logged, which will be converted to string slice.
-    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    /// - `L: FileLoggerFuncTrait<T>` - FileLogger formatting function.
     ///
     /// # Returns
     ///
@@ -266,7 +266,7 @@ impl ServerLog {
     pub fn warn<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
-        L: ServerLogFuncTrait<T>,
+        L: FileLoggerFuncTrait<T>,
     {
         self.write_sync(data, func, WARN_DIR)
     }
@@ -276,7 +276,7 @@ impl ServerLog {
     /// # Arguments
     ///
     /// - `AsRef<str>` - Warn data to be logged, which will be converted to string slice.
-    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    /// - `L: FileLoggerFuncTrait<T>` - FileLogger formatting function.
     ///
     /// # Returns
     ///
@@ -284,7 +284,7 @@ impl ServerLog {
     pub async fn async_warn<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
-        L: ServerLogFuncTrait<T>,
+        L: FileLoggerFuncTrait<T>,
     {
         self.write_async(data, func, WARN_DIR).await
     }
@@ -294,7 +294,7 @@ impl ServerLog {
     /// # Arguments
     ///
     /// - `AsRef<str>` - Error data to be logged, which will be converted to string slice.
-    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    /// - `L: FileLoggerFuncTrait<T>` - FileLogger formatting function.
     ///
     /// # Returns
     ///
@@ -302,7 +302,7 @@ impl ServerLog {
     pub fn error<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
-        L: ServerLogFuncTrait<T>,
+        L: FileLoggerFuncTrait<T>,
     {
         self.write_sync(data, func, ERROR_DIR)
     }
@@ -312,7 +312,7 @@ impl ServerLog {
     /// # Arguments
     ///
     /// - `AsRef<str>` - Error data to be logged, which will be converted to string slice.
-    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    /// - `L: FileLoggerFuncTrait<T>` - FileLogger formatting function.
     ///
     /// # Returns
     ///
@@ -320,7 +320,7 @@ impl ServerLog {
     pub async fn async_error<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
-        L: ServerLogFuncTrait<T>,
+        L: FileLoggerFuncTrait<T>,
     {
         self.write_async(data, func, ERROR_DIR).await
     }

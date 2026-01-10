@@ -2,7 +2,7 @@
 #[tokio::test]
 async fn test() {
     use crate::*;
-    let log: ServerLog = ServerLog::new("./logs", 1_024_000);
+    let log: FileLogger = FileLogger::new("./logs", 1_024_000);
     let error_str: String = String::from("custom error message");
     log.error(error_str, |error| {
         let write_data: String = format!("User error func => {error:?}\n");
@@ -42,7 +42,7 @@ async fn test() {
 #[tokio::test]
 async fn test_more_log_first() {
     use crate::*;
-    let log: ServerLog = ServerLog::new("./logs", DISABLE_LOG_FILE_SIZE);
+    let log: FileLogger = FileLogger::new("./logs", DISABLE_LOG_FILE_SIZE);
     log.error("error data => ", |error| {
         let write_data: String = format!("User error func => {error:?}\n");
         write_data
@@ -77,7 +77,7 @@ async fn test_more_log_first() {
 async fn test_more_log_second() {
     use crate::*;
     for _ in 0..10 {
-        let log: ServerLog = ServerLog::new("./logs", 512_000);
+        let log: FileLogger = FileLogger::new("./logs", 512_000);
         log.error("error data!\n", common_log);
         log.async_error("async error data!\n", common_log).await;
     }

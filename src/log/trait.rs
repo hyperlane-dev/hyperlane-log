@@ -6,4 +6,4 @@
 /// # Generic Parameters
 ///
 /// - `AsRef<str>` - The type of data to be formatted, which will be converted to string slice.
-pub trait ServerLogFuncTrait<T: AsRef<str>>: Fn(T) -> String + Send + Sync {}
+pub trait FileLoggerFuncTrait<T: AsRef<str>>: Fn(T) -> String + Send + Sync {}
