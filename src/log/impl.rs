@@ -145,40 +145,76 @@ impl ServerLog {
         self
     }
 
-    /// Logs error message synchronously.
+    /// Logs trace message synchronously.
     ///
     /// # Arguments
     ///
-    /// - `AsRef<str>` - Error data to be logged, which will be converted to string slice.
+    /// - `AsRef<str>` - Trace data to be logged, which will be converted to string slice.
     /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
     ///
     /// # Returns
     ///
     /// - `&Self` - Reference to self.
-    pub fn error<T, L>(&self, data: T, func: L) -> &Self
+    pub fn trace<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
         L: ServerLogFuncTrait<T>,
     {
-        self.write_sync(data, func, ERROR_DIR)
+        self.write_sync(data, func, TRACE_DIR)
     }
 
-    /// Logs error message asynchronously.
+    /// Logs trace message asynchronously.
     ///
     /// # Arguments
     ///
-    /// - `AsRef<str>` - Error data to be logged, which will be converted to string slice.
+    /// - `AsRef<str>` - Trace data to be logged, which will be converted to string slice.
     /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
     ///
     /// # Returns
     ///
     /// - `&Self` - Reference to self.
-    pub async fn async_error<T, L>(&self, data: T, func: L) -> &Self
+    pub async fn async_trace<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
         L: ServerLogFuncTrait<T>,
     {
-        self.write_async(data, func, ERROR_DIR).await
+        self.write_async(data, func, TRACE_DIR).await
+    }
+
+    /// Logs debug message synchronously.
+    ///
+    /// # Arguments
+    ///
+    /// - `AsRef<str>` - Debug data to be logged, which will be converted to string slice.
+    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    ///
+    /// # Returns
+    ///
+    /// - `&Self` - Reference to self.
+    pub fn debug<T, L>(&self, data: T, func: L) -> &Self
+    where
+        T: AsRef<str>,
+        L: ServerLogFuncTrait<T>,
+    {
+        self.write_sync(data, func, DEBUG_DIR)
+    }
+
+    /// Logs debug message asynchronously.
+    ///
+    /// # Arguments
+    ///
+    /// - `AsRef<str>` - Debug data to be logged, which will be converted to string slice.
+    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    ///
+    /// # Returns
+    ///
+    /// - `&Self` - Reference to self.
+    pub async fn async_debug<T, L>(&self, data: T, func: L) -> &Self
+    where
+        T: AsRef<str>,
+        L: ServerLogFuncTrait<T>,
+    {
+        self.write_async(data, func, DEBUG_DIR).await
     }
 
     /// Logs info message synchronously.
@@ -217,39 +253,75 @@ impl ServerLog {
         self.write_async(data, func, INFO_DIR).await
     }
 
-    /// Logs debug message synchronously.
+    /// Logs warn message synchronously.
     ///
     /// # Arguments
     ///
-    /// - `AsRef<str>` - Debug data to be logged, which will be converted to string slice.
+    /// - `AsRef<str>` - Warn data to be logged, which will be converted to string slice.
     /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
     ///
     /// # Returns
     ///
     /// - `&Self` - Reference to self.
-    pub fn debug<T, L>(&self, data: T, func: L) -> &Self
+    pub fn warn<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
         L: ServerLogFuncTrait<T>,
     {
-        self.write_sync(data, func, DEBUG_DIR)
+        self.write_sync(data, func, WARN_DIR)
     }
 
-    /// Logs debug message asynchronously.
+    /// Logs warn message asynchronously.
     ///
     /// # Arguments
     ///
-    /// - `AsRef<str>` - Debug data to be logged, which will be converted to string slice.
+    /// - `AsRef<str>` - Warn data to be logged, which will be converted to string slice.
     /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
     ///
     /// # Returns
     ///
     /// - `&Self` - Reference to self.
-    pub async fn async_debug<T, L>(&self, data: T, func: L) -> &Self
+    pub async fn async_warn<T, L>(&self, data: T, func: L) -> &Self
     where
         T: AsRef<str>,
         L: ServerLogFuncTrait<T>,
     {
-        self.write_async(data, func, DEBUG_DIR).await
+        self.write_async(data, func, WARN_DIR).await
+    }
+
+    /// Logs error message synchronously.
+    ///
+    /// # Arguments
+    ///
+    /// - `AsRef<str>` - Error data to be logged, which will be converted to string slice.
+    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    ///
+    /// # Returns
+    ///
+    /// - `&Self` - Reference to self.
+    pub fn error<T, L>(&self, data: T, func: L) -> &Self
+    where
+        T: AsRef<str>,
+        L: ServerLogFuncTrait<T>,
+    {
+        self.write_sync(data, func, ERROR_DIR)
+    }
+
+    /// Logs error message asynchronously.
+    ///
+    /// # Arguments
+    ///
+    /// - `AsRef<str>` - Error data to be logged, which will be converted to string slice.
+    /// - `L: ServerLogFuncTrait<T>` - ServerLog formatting function.
+    ///
+    /// # Returns
+    ///
+    /// - `&Self` - Reference to self.
+    pub async fn async_error<T, L>(&self, data: T, func: L) -> &Self
+    where
+        T: AsRef<str>,
+        L: ServerLogFuncTrait<T>,
+    {
+        self.write_async(data, func, ERROR_DIR).await
     }
 }

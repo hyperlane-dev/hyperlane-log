@@ -1,15 +1,6 @@
 /// Default directory path for storing log files.
 pub const DEFAULT_LOG_DIR: &str = "./logs";
 
-/// Subdirectory name for error logs.
-pub const ERROR_DIR: &str = "error";
-
-/// Subdirectory name for info logs.
-pub const INFO_DIR: &str = "info";
-
-/// Subdirectory name for debug logs.
-pub const DEBUG_DIR: &str = "debug";
-
 /// File extension for log files.
 pub const LOG_EXTENSION: &str = "log";
 
@@ -30,3 +21,18 @@ pub(crate) const POINT: &str = ".";
 
 /// Line break symbol.
 pub(crate) const BR: &str = "\n";
+
+/// Subdirectory name for trace logs.
+pub const TRACE_DIR: &str = "trace";
+
+/// Subdirectory name for debug logs.
+pub const DEBUG_DIR: &str = "debug";
+
+/// Subdirectory name for info logs.
+pub const INFO_DIR: &str = "info";
+
+/// Subdirectory name for warn logs.
+pub const WARN_DIR: &str = "warn";
+
+/// Subdirectory name for error logs.
+pub const ERROR_DIR: &str = "error";
