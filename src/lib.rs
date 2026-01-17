@@ -11,6 +11,7 @@
 //! Tokio's async channels for efficient log buffering,
 //! while the synchronous mode writes logs directly to the file system.
 
+#[cfg(test)]
 pub(crate) mod cfg;
 pub(crate) mod log;
 

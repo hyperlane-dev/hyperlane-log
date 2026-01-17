@@ -9,4 +9,14 @@ pub struct FileLogger {
     /// The maximum allowed size (in bytes) for individual log files.
     /// Set to 0 to disable logging.
     pub(super) limit_file_size: usize,
+    /// Subdirectory name for trace logs.
+    pub(super) trace_dir: String,
+    /// Subdirectory name for debug logs.
+    pub(super) debug_dir: String,
+    /// Subdirectory name for info logs.
+    pub(super) info_dir: String,
+    /// Subdirectory name for warn logs.
+    pub(super) warn_dir: String,
+    /// Subdirectory name for error logs.
+    pub(super) error_dir: String,
 }

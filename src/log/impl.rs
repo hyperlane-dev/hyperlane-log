@@ -22,6 +22,11 @@ impl Default for FileLogger {
         Self {
             path: DEFAULT_LOG_DIR.to_owned(),
             limit_file_size: DEFAULT_LOG_FILE_SIZE,
+            trace_dir: TRACE_DIR.to_owned(),
+            debug_dir: DEBUG_DIR.to_owned(),
+            info_dir: INFO_DIR.to_owned(),
+            warn_dir: WARN_DIR.to_owned(),
+            error_dir: ERROR_DIR.to_owned(),
         }
     }
 }
@@ -42,7 +47,82 @@ impl FileLogger {
         Self {
             path: path.as_ref().to_owned(),
             limit_file_size,
+            trace_dir: TRACE_DIR.to_owned(),
+            debug_dir: DEBUG_DIR.to_owned(),
+            info_dir: INFO_DIR.to_owned(),
+            warn_dir: WARN_DIR.to_owned(),
+            error_dir: ERROR_DIR.to_owned(),
         }
+    }
+
+    /// Gets the log file storage path.
+    ///
+    /// # Returns
+    ///
+    /// - `&String` - Reference to the log file storage path.
+    #[inline(always)]
+    pub fn get_path(&self) -> &String {
+        &self.path
+    }
+
+    /// Gets the maximum allowed size (in bytes) for individual log files.
+    ///
+    /// # Returns
+    ///
+    /// - `&usize` - Reference to the maximum file size limit in bytes.
+    #[inline(always)]
+    pub fn get_limit_file_size(&self) -> &usize {
+        &self.limit_file_size
+    }
+
+    /// Gets the trace log directory name.
+    ///
+    /// # Returns
+    ///
+    /// - `&String` - Reference to the trace log directory name.
+    #[inline(always)]
+    pub fn get_trace_dir(&self) -> &String {
+        &self.trace_dir
+    }
+
+    /// Gets the debug log directory name.
+    ///
+    /// # Returns
+    ///
+    /// - `&String` - Reference to the debug log directory name.
+    #[inline(always)]
+    pub fn get_debug_dir(&self) -> &String {
+        &self.debug_dir
+    }
+
+    /// Gets the info log directory name.
+    ///
+    /// # Returns
+    ///
+    /// - `&String` - Reference to the info log directory name.
+    #[inline(always)]
+    pub fn get_info_dir(&self) -> &String {
+        &self.info_dir
+    }
+
+    /// Gets the warn log directory name.
+    ///
+    /// # Returns
+    ///
+    /// - `&String` - Reference to the warn log directory name.
+    #[inline(always)]
+    pub fn get_warn_dir(&self) -> &String {
+        &self.warn_dir
+    }
+
+    /// Gets the error log directory name.
+    ///
+    /// # Returns
+    ///
+    /// - `&String` - Reference to the error log directory name.
+    #[inline(always)]
+    pub fn get_error_dir(&self) -> &String {
+        &self.error_dir
     }
 
     /// Sets the log file storage path.
@@ -55,7 +135,7 @@ impl FileLogger {
     ///
     /// - `&mut Self` - Mutable reference to self for method chaining.
     #[inline(always)]
-    pub fn path<P: AsRef<str>>(&mut self, path: P) -> &mut Self {
+    pub fn set_path<P: AsRef<str>>(&mut self, path: P) -> &mut Self {
         self.path = path.as_ref().to_owned();
         self
     }
@@ -70,8 +150,83 @@ impl FileLogger {
     ///
     /// - `&mut Self` - Mutable reference to self for method chaining.
     #[inline(always)]
-    pub fn limit_file_size(&mut self, limit_file_size: usize) -> &mut Self {
+    pub fn set_limit_file_size(&mut self, limit_file_size: usize) -> &mut Self {
         self.limit_file_size = limit_file_size;
+        self
+    }
+
+    /// Sets the trace log directory name.
+    ///
+    /// # Arguments
+    ///
+    /// - `P: AsRef<str>` - The directory name for trace logs.
+    ///
+    /// # Returns
+    ///
+    /// - `&mut Self` - Mutable reference to self for method chaining.
+    #[inline(always)]
+    pub fn set_trace_dir<P: AsRef<str>>(&mut self, dir: P) -> &mut Self {
+        self.trace_dir = dir.as_ref().to_owned();
+        self
+    }
+
+    /// Sets the debug log directory name.
+    ///
+    /// # Arguments
+    ///
+    /// - `P: AsRef<str>` - The directory name for debug logs.
+    ///
+    /// # Returns
+    ///
+    /// - `&mut Self` - Mutable reference to self for method chaining.
+    #[inline(always)]
+    pub fn set_debug_dir<P: AsRef<str>>(&mut self, dir: P) -> &mut Self {
+        self.debug_dir = dir.as_ref().to_owned();
+        self
+    }
+
+    /// Sets the info log directory name.
+    ///
+    /// # Arguments
+    ///
+    /// - `P: AsRef<str>` - The directory name for info logs.
+    ///
+    /// # Returns
+    ///
+    /// - `&mut Self` - Mutable reference to self for method chaining.
+    #[inline(always)]
+    pub fn set_info_dir<P: AsRef<str>>(&mut self, dir: P) -> &mut Self {
+        self.info_dir = dir.as_ref().to_owned();
+        self
+    }
+
+    /// Sets the warn log directory name.
+    ///
+    /// # Arguments
+    ///
+    /// - `P: AsRef<str>` - The directory name for warn logs.
+    ///
+    /// # Returns
+    ///
+    /// - `&mut Self` - Mutable reference to self for method chaining.
+    #[inline(always)]
+    pub fn set_warn_dir<P: AsRef<str>>(&mut self, dir: P) -> &mut Self {
+        self.warn_dir = dir.as_ref().to_owned();
+        self
+    }
+
+    /// Sets the error log directory name.
+    ///
+    /// # Arguments
+    ///
+    /// - `P: AsRef<str>` - The directory name for error logs.
+    ///
+    /// # Returns
+    ///
+    /// - `&mut Self` - Mutable reference to self for method chaining.
+    #[inline(always)]
+    pub fn set_error_dir<P: AsRef<str>>(&mut self, dir: P) -> &mut Self {
+        self.error_dir = dir.as_ref().to_owned();
         self
     }
 
@@ -160,7 +315,7 @@ impl FileLogger {
         T: AsRef<str>,
         L: FileLoggerFuncTrait<T>,
     {
-        self.write_sync(data, func, TRACE_DIR)
+        self.write_sync(data, func, &self.trace_dir)
     }
 
     /// Logs trace message asynchronously.
@@ -178,7 +333,7 @@ impl FileLogger {
         T: AsRef<str>,
         L: FileLoggerFuncTrait<T>,
     {
-        self.write_async(data, func, TRACE_DIR).await
+        self.write_async(data, func, &self.trace_dir).await
     }
 
     /// Logs debug message synchronously.
@@ -196,7 +351,7 @@ impl FileLogger {
         T: AsRef<str>,
         L: FileLoggerFuncTrait<T>,
     {
-        self.write_sync(data, func, DEBUG_DIR)
+        self.write_sync(data, func, &self.debug_dir)
     }
 
     /// Logs debug message asynchronously.
@@ -214,7 +369,7 @@ impl FileLogger {
         T: AsRef<str>,
         L: FileLoggerFuncTrait<T>,
     {
-        self.write_async(data, func, DEBUG_DIR).await
+        self.write_async(data, func, &self.debug_dir).await
     }
 
     /// Logs info message synchronously.
@@ -232,7 +387,7 @@ impl FileLogger {
         T: AsRef<str>,
         L: FileLoggerFuncTrait<T>,
     {
-        self.write_sync(data, func, INFO_DIR)
+        self.write_sync(data, func, &self.info_dir)
     }
 
     /// Logs info message asynchronously.
@@ -250,7 +405,7 @@ impl FileLogger {
         T: AsRef<str>,
         L: FileLoggerFuncTrait<T>,
     {
-        self.write_async(data, func, INFO_DIR).await
+        self.write_async(data, func, &self.info_dir).await
     }
 
     /// Logs warn message synchronously.
@@ -268,7 +423,7 @@ impl FileLogger {
         T: AsRef<str>,
         L: FileLoggerFuncTrait<T>,
     {
-        self.write_sync(data, func, WARN_DIR)
+        self.write_sync(data, func, &self.warn_dir)
     }
 
     /// Logs warn message asynchronously.
@@ -286,7 +441,7 @@ impl FileLogger {
         T: AsRef<str>,
         L: FileLoggerFuncTrait<T>,
     {
-        self.write_async(data, func, WARN_DIR).await
+        self.write_async(data, func, &self.warn_dir).await
     }
 
     /// Logs error message synchronously.
@@ -304,7 +459,7 @@ impl FileLogger {
         T: AsRef<str>,
         L: FileLoggerFuncTrait<T>,
     {
-        self.write_sync(data, func, ERROR_DIR)
+        self.write_sync(data, func, &self.error_dir)
     }
 
     /// Logs error message asynchronously.
@@ -322,6 +477,6 @@ impl FileLogger {
         T: AsRef<str>,
         L: FileLoggerFuncTrait<T>,
     {
-        self.write_async(data, func, ERROR_DIR).await
+        self.write_async(data, func, &self.error_dir).await
     }
 }
