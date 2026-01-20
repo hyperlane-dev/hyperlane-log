@@ -1,6 +1,5 @@
 use crate::*;
 
-#[cfg(test)]
 #[tokio::test]
 async fn test() {
     let log: FileLogger = FileLogger::new("./logs", 1_024_000);
@@ -61,7 +60,6 @@ async fn test() {
     .await;
 }
 
-#[cfg(test)]
 #[tokio::test]
 async fn test_more_log_first() {
     let log: FileLogger = FileLogger::new("./logs", DISABLE_LOG_FILE_SIZE);
@@ -112,7 +110,6 @@ async fn test_more_log_first() {
     .await;
 }
 
-#[cfg(test)]
 #[tokio::test]
 async fn test_more_log_second() {
     for _ in 0..10 {
@@ -130,7 +127,6 @@ async fn test_more_log_second() {
     }
 }
 
-#[cfg(test)]
 #[tokio::test]
 async fn test_set_log_level_dirs() {
     let mut log: FileLogger = FileLogger::new("./test_logs", 1_024_000);
@@ -159,7 +155,6 @@ async fn test_set_log_level_dirs() {
         .await;
 }
 
-#[cfg(test)]
 #[tokio::test]
 async fn test_log_level_dir_constants() {
     let log: FileLogger = FileLogger::default();
@@ -170,7 +165,6 @@ async fn test_log_level_dir_constants() {
     assert_eq!(log.get_error_dir(), ERROR_DIR);
 }
 
-#[cfg(test)]
 #[tokio::test]
 async fn test_log_level_dir_method_chaining() {
     let mut log: FileLogger = FileLogger::new("./logs", 512_000);
@@ -187,7 +181,6 @@ async fn test_log_level_dir_method_chaining() {
     assert_eq!(log_ref.get_error_dir(), "chain_error");
 }
 
-#[cfg(test)]
 #[tokio::test]
 async fn test_log_level_dirs_with_special_characters() {
     let mut log: FileLogger = FileLogger::new("./logs/special", 1_024_000);
@@ -213,7 +206,6 @@ async fn test_log_level_dirs_with_special_characters() {
         .await;
 }
 
-#[cfg(test)]
 #[tokio::test]
 async fn test_log_level_dirs_edge_cases() {
     let mut log: FileLogger = FileLogger::new("./logs", 512_000);

@@ -11,12 +11,17 @@
 //! Tokio's async channels for efficient log buffering,
 //! while the synchronous mode writes logs directly to the file system.
 
+pub(crate) mod r#const;
+pub(crate) mod r#fn;
+pub(crate) mod r#impl;
+pub(crate) mod r#struct;
+pub(crate) mod r#trait;
+
 #[cfg(test)]
-pub(crate) mod cfg;
-pub(crate) mod log;
+mod test;
 
-pub use log::*;
+pub use {r#const::*, r#fn::*, r#struct::*, r#trait::*};
 
-pub(crate) use file_operation::*;
-pub(crate) use hyperlane_time::*;
 pub(crate) use std::fs::read_dir;
+
+pub(crate) use {file_operation::*, hyperlane_time::*};
